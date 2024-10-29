@@ -1,4 +1,7 @@
+-- 작업 데이터베이스 변경
 use bookstore;
+
+drop table inc_test;
 
 create table inc_test
 (
@@ -15,6 +18,9 @@ select * from inc_test;
 
 -- --------------------------------------------
 
+-- 자기참조테이블 : FK가 같은 테이블의 PK를 참조하는 경우
+
+drop table employees;
 CREATE TABLE employees ( 
     employee_id INT PRIMARY KEY, 
     employee_name VARCHAR(50), 
