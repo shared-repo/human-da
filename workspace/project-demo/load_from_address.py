@@ -58,7 +58,7 @@ address_df = pd.read_csv(f'data-files/add_{year}.csv', encoding="utf-8")
 # 결과 저장할 리스트
 coordinates = []
 
-for row in address_df.values:
+for row in address_df.values[21589:21591]:
 
     # API Key 설정
     kakao_api_key = "d521968522a7b6e1d1d38e13e83f1320"  # Kakao REST API 키를 입력하세요
