@@ -73,6 +73,37 @@ def image_detect(image_path):
 		if key == 27: # esc key
 			break
 
+def video_detect(video_path):
+	model, classes, layer_names, colors = load_yolo()
+	cap = cv2.VideoCapture(video_path)
+	while True:
+		_, frame = cap.read() # 한 frame 읽기
+	    # print(frame.shape)
+		height, width, channels = frame.shape
+		blob, outputs = detect_objects(frame, model, layer_names)
+		boxes, confs, class_ids = get_box_dimensions(outputs, height, width)
+		draw_labels(boxes, confs, colors, class_ids, classes, frame)
+
+		key = cv2.waitKey(1) # wait keyboard input
+		if key == 27: # esc key
+			break
+		
+def webcam_detect():
+	model, classes, layer_names, colors = load_yolo()
+	cap = cv2.VideoCapture(0)
+	while True:
+		_, frame = cap.read() # 한 frame 읽기
+	    # print(frame.shape)
+		height, width, channels = frame.shape
+		blob, outputs = detect_objects(frame, model, layer_names)
+		boxes, confs, class_ids = get_box_dimensions(outputs, height, width)
+		draw_labels(boxes, confs, colors, class_ids, classes, frame)
+
+		key = cv2.waitKey(1) # wait keyboard input
+		if key == 27: # esc key
+			break
+	cap.release()
+
 # terminal에서 python 명령으로 실행하면 True, import로 실행하면 False
 if __name__ == "__main__": 
 
@@ -98,8 +129,14 @@ if __name__ == "__main__":
     ##############################################
 	
     # 4. 이미지 기반 개체 탐색 
-    image_detect("yolo-data/busy_street.jpg")
+    # image_detect("yolo-data/busy_street.jpg")
+
+    # 5. 동영상 기반 개체 탐색
+    # video_detect("yolo-data/car_on_road.mp4")
 	
+    # 6. 실시간 영상 기반 개체 탐색
+    webcam_detect()
+
     cv2.destroyAllWindows()
 
 
