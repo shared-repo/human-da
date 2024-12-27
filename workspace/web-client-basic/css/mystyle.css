@@ -1,0 +1,6 @@
+div#mydiv {
+    color: purple;
+    font-weight: bold;
+    text-align: right;
+    border: solid 5px red
+}
