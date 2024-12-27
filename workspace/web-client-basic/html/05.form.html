@@ -6,6 +6,7 @@
 </head>
 <body>
     <br><br><br>
+    <form action="#" method="post">
     <table border="1" align="center" width="500">
         <tr style="height:50px">
             <th colspan="2">회원 정보</th>
@@ -32,7 +33,44 @@
                 </select>
             </td>
         </tr>
+        <tr style="height:40px">
+            <th>성별</th>
+            <!-- <td><input type="text" name="gender" style="width:90%"></td> -->
+             <td>
+                <input type="radio" name="gender" value="male">남
+                <input type="radio" name="gender" value="female">여
+            </td>
+        </tr>
+        <tr style="height:40px">
+            <th>관심주제</th>
+             <td>
+                <input type="checkbox" name="interest" value="movie">영화
+                <input type="checkbox" name="interest" value="music">음악
+                <input type="checkbox" name="interest" value="sports">스포츠
+                <input type="checkbox" name="interest" value="game">게임
+                <input type="checkbox" name="interest" value="camping">캠핑
+            </td>
+        </tr>
+        <tr style="height:40px">
+            <th>프로필사진</th>
+             <td>
+                <input type="file" name="picture" accept="image/*">
+            </td>
+        </tr>
+        <tr style="height:40px">
+            <th>가입인사</th>
+             <td>
+                <textarea name="greetings" cols="40" rows="5" style="resize: none;"></textarea>
+            </td>
+        </tr>
+        <tr style="height:40px">            
+            <th colspan="2" style="height: 40px;">
+                <input type="submit" value="가입">
+                <input type="reset" value="다시입력">
+            </th>
+        </tr>
+        
     </table>
-    
+    </form>
 </body>
 </html>
