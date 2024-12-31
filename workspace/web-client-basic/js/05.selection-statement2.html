@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+        const n = Math.random();    // 0 ~ 1 난수   (1은 제외)
+        const n2 = n * 45 + 1;      // ` ~ 46 난수  (46은 제외)
+        const n3 = Math.floor(n2);   // 소수점 이하 버림
+        // alert(Math.floor(n3 / 10));
+        let number_range;
+        switch (Math.floor(n3 / 10)) { //switch-case는 범위 처리 불가능 -> 변환 수행
+        case 0 : 
+            number_range = "1번대";
+            break;  // switch-case문 즉시 종료
+        case 1 :
+            number_range = "10번대";
+            break;
+        case 2 :
+            number_range = "20번대";
+            break;
+        case 3 :
+            number_range = "30번대";
+            break;
+        default :
+            number_range = "40번대";
+            break;
+        }
+        document.write(`<h2>selected number : ${n}</h2>`); // 브라우저 화면에 출력
+        document.write(`<h2>selected number : ${n2}</h2>`);
+        document.write(`<h2>selected number : ${n3}</h2>`);
+        document.write(`<h2>${number_range}</h2>`);
+    </script>
+</head>
+<body>
+
+    
+</body>
+</html>

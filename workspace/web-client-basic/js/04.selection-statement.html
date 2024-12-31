@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+        const n = Math.random();    // 0 ~ 1 난수   (1은 제외)
+        const n2 = n * 45 + 1;      // ` ~ 46 난수  (46은 제외)
+        const n3 = Math.floor(n2);   // 소수점 이하 버림
+        let number_range;
+        if (n3 < 10) {
+            number_range = "1번대";
+        } else if (n3 < 20) {
+            number_range = "10번대";
+        } else if (n3 < 30) {
+            number_range = "20번대";
+        } else if (n3 < 40) {
+            number_range = "30번대";
+        } else {
+            number_range = "40번대";
+        }
+        document.write(`<h2>selected number : ${n}</h2>`); // 브라우저 화면에 출력
+        document.write(`<h2>selected number : ${n2}</h2>`);
+        document.write(`<h2>selected number : ${n3}</h2>`);
+        document.write(`<h2>${number_range}</h2>`);
+    </script>
+</head>
+<body>
+
+    
+</body>
+</html>
