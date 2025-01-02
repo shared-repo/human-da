@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>iteration statement</title>
+    <script>
+        let idan;
+        // do {
+        //     const sdan = prompt("출력할 구구단의 단"); // alert - confirm - prompt
+        //     idan = parseInt(sdan); // 문자열 -> 숫자
+        //     // alert(idan);
+        // } while (idan < 0 || idan > 9);
+
+        while (true) {
+            const sdan = prompt("출력할 구구단의 단"); // alert - confirm - prompt
+            idan = parseInt(sdan); // 문자열 -> 숫자
+            if (idan >= 0 && idan < 10 ) {
+                break;
+            }
+        }
+
+        document.write("<table border='1' width='150'>");        
+        // for (let i = 1; i < 10; i += 1) {
+        for (let i = 1; i < 10; i++) { // i++ : i = i + 1 : i += 1
+            document.write("<tr style='height:50px'>");
+            document.write(`<th>${idan} * ${i} = ${idan*i}</th>`);
+            document.write("</tr>");
+        }
+        document.write("</table>");
+        
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
