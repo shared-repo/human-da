@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">    
+    <title>Lotto</title>
+    <script>
+        // 브라우저가 요청 문서를 준비했을 때 발생하는 이벤트 처리
+        window.addEventListener('load', (event) => {
+
+            const btn = document.querySelector('#select-btn');
+            btn.addEventListener('click', (event) => {
+                let numbers = [];
+                for (let i = 0; i < 6; i++) {
+                    const n = Math.floor(Math.random() * 45) + 1; // 1 ~ 45(포함)
+                    numbers.push(n)
+                }
+                const h3 = document.querySelector('#numbers'); // id='numbers'인 요소 찾기
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <button id="select-btn">당첨 예상 번호 뽑기</button>
+    <hr>
+    <h3 id="numbers"></h3>
+    
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Event</title>
+    <script>
+
+    </script>
+</head>
+<body>
+    <button id="btn1" onclick="alert('눌러주셔서 감사합니다.')">눌러주세요1</button>
+    <button id="btn2">눌러주세요2</button>
+    
+    <script>
+        const btn2 = document.querySelector('#btn2'); // id="btn2"인 요소 찾기
+        // btn2.onclick = function(event) { alert('저도 감사합니다.'); };
+        // btn2.onclick = (event) => { alert('저도 감사합니다.'); };
+        btn2.addEventListener('click', (event) => { 
+                                            alert('저도 감사합니다.'); 
+                                        } );
+    </script>
+</body>
+</html>
