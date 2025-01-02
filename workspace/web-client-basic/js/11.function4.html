@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Function</title>
+    <script>
+        function mySum(n1, n2) {
+            return n1 + n2;
+        }
+        const f = mySum; // 함수는 다른 변수에 저장할 수 있음 -> 변수는 함수처럼 동작
+        const f2 = function (n1, n2) { // 익명 함수를 만들고 변수에 저장 
+            return n1 + n2;
+        }
+        const f3 = (n1, n2) => n1 + n2; // 화살표 함수                   
+
+        document.write( `<h3>${mySum(10, 20)}</h3>` );
+        document.write( `<h3>${f(10, 20)}</h3>` );
+        document.write( `<h3>${f2(10, 20)}</h3>` );
+        document.write( `<h3>${f3(10, 20)}</h3>` );
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
