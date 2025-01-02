@@ -4,17 +4,32 @@
     <meta charset="UTF-8">    
     <title>Lotto</title>
     <script>
+        function selectBasicNumbers() {
+            let numbers = [];
+            for (let i = 0; i < 6; i++) {
+                const n = Math.floor(Math.random() * 45) + 1; // 1 ~ 45(포함)
+                numbers.push(n)
+            }
+            return numbers;
+        }
+        function showNumbers(numbers, element) {
+            let str = "";
+            // for (const n in numbers) {   // 배열인 경우 위치 번호를 n에 저장
+            for (const n of numbers) {      // 순서대로 배열 요소의 값을 n에 저장
+                str += `[${n}]`;
+            }            
+            element.innerHTML = str; // --> <element>str</element>
+        }
         // 브라우저가 요청 문서를 준비했을 때 발생하는 이벤트 처리
         window.addEventListener('load', (event) => {
 
             const btn = document.querySelector('#select-btn');
             btn.addEventListener('click', (event) => {
-                let numbers = [];
-                for (let i = 0; i < 6; i++) {
-                    const n = Math.floor(Math.random() * 45) + 1; // 1 ~ 45(포함)
-                    numbers.push(n)
-                }
+                const numbers = selectBasicNumbers()
+                
                 const h3 = document.querySelector('#numbers'); // id='numbers'인 요소 찾기
+                showNumbers(numbers, h3);
+                
             });
 
         });
