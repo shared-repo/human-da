@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>window object</title>
+    <script>
+        // window는 모든 객체, 함수의 직/간접 부모 객체
+        // window.alert(); window.confirm(); window.console.log();
+
+        // 브라우저가 html을 문서를 읽어서 사용할 준비가 끝나면 발생하는 이벤트
+        window.addEventListener('load', function(event) {            
+
+            function showTime() {
+                const msg = document.querySelector('#message'); // id='message'인 요소 객체 찾기
+                msg.innerHTML = `<h3>${ new Date() }</h3>`
+            }
+            function showTime2() {
+                const msg = document.querySelector('#message'); // id='message'인 요소 객체 찾기
+                msg.innerHTML = `<h3>${ new Date() }</h3>`
+                timerId = window.setTimeout(showTime2, 1000);
+            }
+
+            let timerId = null; // null == Python의 None
+            btnStart = document.querySelector("#start-timer");
+            btnStart.addEventListener("click", function(event) {                
+                if (timerId != null) return;
+                
+                // timerId = window.setInterval(showTime, 1000); // 1초마다 한 번 showTime 호출
+                timerId = window.setTimeout(showTime2, 1000); // 1초 후에 showTime 호출
+            });
+            btnStop = document.querySelector("#stop-timer");
+            btnStop.addEventListener("click", function(event) {
+                // window.clearInterval(timerId); // 타이머 중지
+                window.clearTimeout(timerId);
+
+                timerId = null;
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <button id="start-timer">타이머 시작</button>
+    <button id="stop-timer">타이머 중지</button>
+    <hr>
+    <div id="message"></div>
+</body>
+</html>

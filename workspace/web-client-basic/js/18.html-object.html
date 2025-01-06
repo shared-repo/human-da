@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Html Object</title>
+    <style>
+        table { margin: 0 auto; }
+        td { width: 100px; height: 100px; text-align: center; border: solid 1px }
+        div#canvas { width: 840px; height: 500px; margin: 0 auto }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <div id="canvas"></div>
+
+    <script>
+        const canvas = document.querySelector("#canvas");
+        // document.querySelector("td"); // 첫 번째 td 반환
+        const tds = document.querySelectorAll("td"); // 모든 td 찾기
+        colors = ["red", "orange", "yellow", "green", "blue", "navy", "purple", "white"];
+
+        for (let i = 0; i < tds.length; i++) {
+            tds[i].style.backgroundColor = colors[i];
+            if (i == tds.length - 1) {
+                tds[i].innerHTML = "Random"
+            }
+            tds[i].addEventListener("click", function(event) {
+                if (event.target.innerHTML == "Random") {
+                    r = Math.floor(Math.random() * 256);
+                    g = Math.floor(Math.random() * 256);
+                    b = Math.floor(Math.random() * 256);
+                    canvas.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+                } else {
+                    // canvas.style.backgroundColor = "현재 click한 td의 배경색";
+                    canvas.style.backgroundColor = event.target.style.backgroundColor;
+                }
+            });
+        }
+    </script>
+    
+</body>
+</html>

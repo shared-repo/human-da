@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>History & Location</title>
+</head>
+<body>
+    <button id="prev">이전</button>
+    <button id="next">다음</button>
+    <hr>
+    <button id="kaggle">Go to Kaggle</button>
+    <button id="aihub">Go to Ai.hub</button>
+    
+    <script>
+        const btnPrev = document.querySelector('#prev');
+        btnPrev.addEventListener('click', function(event) {
+            history.back(); // 이전 표시 페이지로 이동 : history.go(-1)
+        });
+        const btnNext = document.querySelector('#next');
+        btnNext.addEventListener('click', function(event) {
+            history.forward(); // 다음 표시 페이지로 이동 : history.go(1);
+        });
+
+        const btnKaggle = document.querySelector('#kaggle');
+        btnKaggle.addEventListener('click', function(event) {
+            location.href = "http://www.kaggle.com";
+        });
+        const btnAihub = document.querySelector('#aihub');
+        btnAihub.addEventListener('click', function(event) {
+            location.href = "http://www.aihub.or.kr";
+        });
+    </script>
+</body>
+</html>
