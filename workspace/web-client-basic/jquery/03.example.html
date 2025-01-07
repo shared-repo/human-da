@@ -14,9 +14,9 @@
             </td>
         </tr>
         <tr id="display-row">
-            <td><button>이전</button></td>
+            <td><button data-action="prev">이전</button></td>
             <td colspan="8"><img></td>
-            <td><button>다음</button></td>
+            <td><button data-action="next">다음</button></td>
         </tr>
     </table>
     
@@ -25,15 +25,58 @@
         // $(document).ready(function({
         $(function() {
 
+            let currentImg = null;
+            let currentIdx = null;
+
+            function setCurrentImage(newImage) {
+                const src = $(newImage).attr('src');// .attr('name') : 읽기
+                $('#display-row img').attr('src', src); // .attr('name', 'value') : 쓰기                    
+                if (currentImg) {
+                    $(currentImg).css('border', "solid 1px");
+                }
+                $(newImage).css('border', "solid 2px red");
+                currentImg = newImage;
+            }
+            function changeImage(direction) {
+                // const idx = $(currentImg).attr('data-idx');
+                const idx = $(currentImg).data('idx'); // == .attr('data-idx')
+                let newIdx = parseInt(idx) + direction;
+                if (newIdx > 9) newIdx = 0;
+                if (newIdx < 0) newIdx = 9;
+
+                $(`img[data-idx='${newIdx}']`).trigger('click');
+            }
+
+            $('table').css("margin", "0 auto");
+            $('#display-row td').css('text-align', 'center');
+            $('#display-row img').css({ "width": "500px", 
+                                        "height": "500px", 
+                                        "border": "solid 10px gray"});
+
             const tr = $('#select-row');
             for (let i = 0; i < 10; i++) {
                 const td = $("<td></td>"); // <td> 만들기
                 tr.append(td); // tr 하위에 td를 붙이기
                 const img = $("<img>"); // <img> 만들기
-                img.attr('src', `images/${i}.jpg`);
-                img.css({ "width": "100px", "height": "100px"});
+                img.attr({'src':`images/${i}.jpg`, 'data-idx': `${i}`});
+                img.css({ "width": "100px", "height": "100px", "border": "solid 1px"});
                 td.append(img);
+
+                img.on('click', function(event) {                                        
+                    setCurrentImage(event.target);
+                });
             }
+
+            $('#display-row button').on('click', function(event) {
+                let direction = $(event.target).attr('data-action');
+                if (direction == 'prev') {
+                    changeImage(-1);
+                } else {
+                    changeImage(1);
+                }
+            });
+
+            $('#select-row img:first').trigger('click'); // 이벤트 강제 발생
 
         });
     </script>
