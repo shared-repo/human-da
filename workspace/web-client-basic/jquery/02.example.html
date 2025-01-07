@@ -11,7 +11,7 @@
                 <button>로또 당첨 예상번호 뽑기</button>
             </td>
         </tr>
-        <tr>
+        <tr class="numbers">
             <td></td>
             <td></td>
             <td></td>
@@ -23,8 +23,31 @@
     
     <script src="http://code.jquery.com/jquery-3.7.1.js"></script>
     <script>
+        function selectBasicNumbers() {
+            let numbers = [];
+            for (let i = 0; i < 6; i++) {
+                const n = Math.floor(Math.random() * 45) + 1; // 1 ~ 45(포함)
+                numbers.push(n)
+            }
+            return numbers;
+        }
+
         $(document).ready(function() {
-            $('button').css("width", "100%"); // css : style을 읽고 쓰는 함수
+            $('table').css("margin", "0 auto");
+            $('button').css({"width":"100%", "height":"50px"});
+            $('.numbers td').css({  "height": "90px",
+                                    "width": "90px", 
+                                    "border": "solid 1px",
+                                    "font-weight": "bold",
+                                    "text-align": "center" });
+
+            $('button').on('click', function(event) {
+                const numbers = selectBasicNumbers();
+                $('.numbers td').each(function(idx, td) { // 전달인자 td는 html dom 객체
+                    $(td).text(numbers[idx]);
+                });
+
+            });
         });
     </script>
 </body>
