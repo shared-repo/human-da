@@ -9,8 +9,8 @@
         <tr id="select-row"></tr>
         <tr id="buttons-row">
             <td colspan="10">
-                <button>자동 보기 시작</button>
-                <button>자동 보기 중지</button>
+                <button data-action="start">자동 보기 시작</button>
+                <button data-action="stop">자동 보기 중지</button>
             </td>
         </tr>
         <tr id="display-row">
@@ -52,6 +52,8 @@
             $('#display-row img').css({ "width": "500px", 
                                         "height": "500px", 
                                         "border": "solid 10px gray"});
+            $('#buttons-row td').css({"text-align": "center", "padding-bottom":"5px"})
+            $('#buttons-row button').css({ "width":"150px", "height": "50px"});
 
             const tr = $('#select-row');
             for (let i = 0; i < 10; i++) {
@@ -73,6 +75,18 @@
                     changeImage(-1);
                 } else {
                     changeImage(1);
+                }
+            });
+
+            let autoViewWorkId = null;
+            $('#buttons-row button').on('click', function(event) {
+                const action = $(event.target).data('action');
+                if (action == 'start' && autoViewWorkId == null) {
+                    autoViewWorkId = 
+                        window.setInterval(function() { changeImage(1); }, 3000);
+                } else if (action == "stop" && autoViewWorkId != null) {
+                    window.clearInterval(autoViewWorkId);
+                    autoViewWorkId = null;
                 }
             });
 
