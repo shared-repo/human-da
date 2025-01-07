@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery</title>
+</head>
+<body>
+    <button>change color</button>
+    <hr>
+    <div style="height:300px"></div>
+    
+    <!-- <script src="jquery-3.7.1.js"></script> --><!-- 다운로드해서 사용 -->
+    <script src="http://code.jquery.com/jquery-3.7.1.js"></script><!-- CDN 사용 -->
+    <script>
+
+        // window.addEventListener('DOM', function(event) {});
+        // docuemnt.addEventListener("DOMContentLoaded", function(event) {});
+        
+        // $(document).ready(function() {})
+        $(function() { // jQuery의 시작함수
+            $('button').on('click', function(event) {
+                r = Math.floor(Math.random() * 256);
+                g = Math.floor(Math.random() * 256);
+                b = Math.floor(Math.random() * 256);
+                $('div').css('background-color', `rgb(${r}, ${g}, ${b})`);
+            });
+        });
+
+        
+
+    </script>
+</body>
+</html>
