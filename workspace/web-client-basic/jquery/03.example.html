@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery Example</title>
+</head>
+<body>
+    <table>
+        <tr id="select-row"></tr>
+        <tr id="buttons-row">
+            <td colspan="10">
+                <button>자동 보기 시작</button>
+                <button>자동 보기 중지</button>
+            </td>
+        </tr>
+        <tr id="display-row">
+            <td><button>이전</button></td>
+            <td colspan="8"><img></td>
+            <td><button>다음</button></td>
+        </tr>
+    </table>
+    
+    <script src="jquery-3.7.1.js"></script>
+    <script>
+        // $(document).ready(function({
+        $(function() {
+
+            const tr = $('#select-row');
+            for (let i = 0; i < 10; i++) {
+                const td = $("<td></td>"); // <td> 만들기
+                tr.append(td); // tr 하위에 td를 붙이기
+                const img = $("<img>"); // <img> 만들기
+                img.attr('src', `images/${i}.jpg`);
+                img.css({ "width": "100px", "height": "100px"});
+                td.append(img);
+            }
+
+        });
+    </script>
+</body>
+</html>
