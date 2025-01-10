@@ -32,7 +32,8 @@ def create_app():
         a = request.args.get('data_a', "no data for data_a")
         b = request.args.get('data_b', "no data for data_b")
         print(a, b)
-        render_template('demo.html')
+
+        return render_template('demo.html')
 
     @app.route('/demo/process-data', methods=['POST'])
     def process_post_data():
@@ -40,7 +41,8 @@ def create_app():
         a = request.form.get('data_a', "no data for data_a")
         b = request.form.get('data_b', "no data for data_b")
         print(a, b)
-        render_template('demo.html')
+        
+        return render_template('demo.html')
 
     return app
 
