@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 def create_app():
 
@@ -22,4 +22,10 @@ def create_app():
             </body>
         </html>"""
     
+    @app.route('/demo')
+    def show_demo_view():
+        return render_template('demo.html')
+
     return app
+
+    
