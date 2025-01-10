@@ -8,4 +8,5 @@ def register():
 
 @auth_bp.route("/login/")
 def login():
-    return render_template("auth/login-backup.html")
+    # return render_template("auth/login2.html")
+    return render_template("auth/login.html")
