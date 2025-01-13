@@ -29,6 +29,7 @@ def create_app():
     @app.route('/demo/process-data', methods=['GET'])
     def process_get_data():
         print('process-data : GET handler')
+        # request.args : get 방식 전송 데이터 읽기 도구
         a = request.args.get('data_a', "no data for data_a")
         b = request.args.get('data_b', "no data for data_b")
         print(a, b)
@@ -38,10 +39,11 @@ def create_app():
     @app.route('/demo/process-data', methods=['POST'])
     def process_post_data():
         print('process-data : POST handler')
+        # request.form : post 방식 전송 데이터 읽기 도구
         a = request.form.get('data_a', "no data for data_a")
         b = request.form.get('data_b', "no data for data_b")
         print(a, b)
-        
+
         return render_template('demo.html')
 
     return app
