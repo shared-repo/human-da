@@ -63,7 +63,8 @@ select * from book order by bookid desc;
 -- ---------------
 
 -- 테이블 만들기 : book2 이름으로 book과 유사하게
-create table book2
+drop table if exists book2;
+create table if not exists book2
 (
 	bookid integer primary key auto_increment,
     bookname varchar(100) not null,
@@ -73,7 +74,8 @@ create table book2
     regdate datetime default (now())
 );
 
-create table customer2
+drop table if exists customer2;
+create table if not exists customer2
 (
 	custid integer auto_increment,
     name varchar(50) not null,
@@ -84,7 +86,7 @@ create table customer2
     constraint pk_customer2 primary key (custid)
 );
 
-create table orders2
+create table if not exists orders2
 (
 	orderid integer auto_increment,
     custid integer not null,

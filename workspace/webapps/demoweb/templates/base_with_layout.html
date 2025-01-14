@@ -357,10 +357,13 @@
                                         <div class="image">
                                             <img src="/static/images/icon/avatar-01.jpg" alt="John Doe" />
                                         </div>
+                                        {% if session.get('loginuser') %}
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">john doe</a>
+                                            <a class="js-acc-btn" href="#">{{ session['loginuser']['memberid'] }}</a>
                                         </div>
+                                        {% endif %}
                                         <div class="account-dropdown js-dropdown">
+                                            {% if session.get('loginuser') %}
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
@@ -369,12 +372,12 @@
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#">john doe</a>
+                                                        <a href="#">{{ session['loginuser']['memberid'] }}</a>
                                                     </h5>
-                                                    <span class="email">johndoe@example.com</span>
+                                                    <span class="email">{{ session['loginuser']['email'] }}</span>
                                                 </div>
-                                            </div>
-                                            <div class="account-dropdown__body">
+                                            </div>                                            
+                                            <div class="account-dropdown__body">                                                
                                                 <div class="account-dropdown__item">
                                                     <a href="#">
                                                         <i class="zmdi zmdi-account"></i>Account</a>
@@ -386,15 +389,19 @@
                                                 <div class="account-dropdown__item">
                                                     <a href="#">
                                                         <i class="zmdi zmdi-money-box"></i>Billing</a>
-                                                </div>
+                                                </div>                                                
                                             </div>
+                                            {% endif %}
                                             <div class="account-dropdown__footer">
-                                                <a href="#">
+                                                {% if session.get('loginuser') %}
+                                                <a href="{{ url_for('auth.logout') }}">
                                                     <i class="zmdi zmdi-power"></i>Logout</a>
+                                                {% else %}
                                                 <a href="{{ url_for('auth.register') }}">
                                                     <i class="fa fa-sign-in-alt"></i>Register</a>
                                                 <a href="{{ url_for('auth.login') }}">
                                                     <i class="fa fa-sign-in-alt"></i>Login</a>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>

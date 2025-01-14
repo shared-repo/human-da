@@ -1,8 +1,9 @@
-from flask import Blueprint, url_for
+from flask import Blueprint, url_for, session
 from flask import request # 요청 관련 정보를 저장하는 객체
 from flask import render_template # forward 방식 이동
 from flask import redirect # redirect 방식 이동
 from werkzeug.security import generate_password_hash # 복원불가능 암호화 도구
+from werkzeug.security import check_password_hash # 암호화 데이터 비교
 
 from ..db_utils import auth_util
 
@@ -28,7 +29,39 @@ def register():
         return redirect( url_for('auth.login') )
         
 
-@auth_bp.route("/login/")
+@auth_bp.route("/login/", methods=['GET', 'POST'])
 def login():
-    # return render_template("auth/login2.html")
-    return render_template("auth/login.html")
+    if request.method.lower() == 'get':
+        # return render_template("auth/login2.html")
+        return render_template("auth/login.html")
+    else:
+        member_id = request.form.get('memberid', '')
+        passwd = request.form.get('passwd', '')
+        # print("-------------->", member_id, passwd)
+
+        # 1. member_id로 데이터베이스에서 데이터 조회
+        member = auth_util.select_member_by_id(member_id)
+        # print("----------------->", member)
+        # 2. 조회된 데이터가 없으면 로그인 실패
+        if not member:
+            return render_template('auth/login.html', error='해당 아이디의 사용자가 없습니다.')
+        
+        # 3. 조회된 데이터가 있으면 패스워드 비교
+        # passwd_hash = generate_password_hash(passwd)
+        if not check_password_hash(member[1], passwd): # 4. 패스워드가 다르면 로그인 실패
+            return render_template('auth/login.html', error="패스워드가 일치하지 않습니다.")
+        
+        else:   # 5. 패스워드가 같으면 로그인 처리
+            # session['loginuser'] = member_id    #  -> 세션에 데이터 저장
+            session['loginuser'] = \
+                { k: v for k, v in zip(['memberid','passwd', 'email'], member) if k != 'passwd' } 
+            return redirect(url_for("main.index"))
+        
+@auth_bp.route('/logout', methods=['GET'])
+def logout():
+    # del session['loginuser']
+    # session['loginuser'] = None # session의 한 개 요소만 제거
+    session.clear() # 세션의 모든 요소를 제거
+
+    return redirect(url_for('main.index'))
+

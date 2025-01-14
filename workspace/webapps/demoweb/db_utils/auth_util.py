@@ -15,3 +15,23 @@ def insert_member(member_id, passwd, email):
 
     cursor.close()
     conn.close()
+
+
+def select_member_by_id(member_id):
+    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+                           user="humanda", passwd="humanda")
+    
+    cursor = conn.cursor()
+
+    sql = """select memberid, passwd, email
+             from member
+             where memberid = %s"""
+    cursor.execute(sql, [member_id])
+
+    row = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return row
+
