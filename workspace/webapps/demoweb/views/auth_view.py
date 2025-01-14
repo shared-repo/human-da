@@ -44,12 +44,15 @@ def login():
         # print("----------------->", member)
         # 2. 조회된 데이터가 없으면 로그인 실패
         if not member:
-            return render_template('auth/login.html', error='해당 아이디의 사용자가 없습니다.')
+            return render_template('auth/login.html', 
+                                   error='해당 아이디의 사용자가 없습니다.') # html로 데이터 전달
         
         # 3. 조회된 데이터가 있으면 패스워드 비교
         # passwd_hash = generate_password_hash(passwd)
+        # if member[1] == passwd_hash: # generate_password_hash 함수로 만든 데이터는 직접 비교할 수 없음
         if not check_password_hash(member[1], passwd): # 4. 패스워드가 다르면 로그인 실패
-            return render_template('auth/login.html', error="패스워드가 일치하지 않습니다.")
+            return render_template('auth/login.html', 
+                                   error="패스워드가 일치하지 않습니다.")
         
         else:   # 5. 패스워드가 같으면 로그인 처리
             # session['loginuser'] = member_id    #  -> 세션에 데이터 저장
