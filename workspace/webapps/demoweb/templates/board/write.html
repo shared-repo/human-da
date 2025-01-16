@@ -8,7 +8,8 @@
                 <strong>게시글 쓰기</strong>
             </div>
             <div class="card-body card-block">
-                <form id="form-write" action="{{ url_for('board.write') }}" method="post" 
+                <form id="form-write" action="{{ url_for('board.write') }}" 
+                      method="post" 
                       class="form-horizontal">
                     <div class="row form-group">
                         <div class="col col-md-2">
@@ -23,7 +24,8 @@
                             <label for="writer" class=" form-control-label">작성자</label>
                         </div>
                         <div class="col-12 col-md-10">
-                            <input type="text" id="writer" name="writer" disabled class="form-control">
+                            <input type="text" id="writer" name="writer" value="{{ session['loginuser']['memberid'] }}"
+                                   readonly class="form-control">
                         </div>
                     </div>
                     <div class="row form-group">
@@ -61,11 +63,11 @@
 <script>
 $(function() {
     $('#btn-submit').on('click', function(event) {
-
+        $('#form-write').submit();
     });
     $('#btn-reset').on('click', function(event) {
-        // $('#form-write').reset();
-        $('#form-write')[0].reset();
+        // $('#form-write').reset(); // 오류 : jQuery 객체집합에는 reset 함수 없음
+        $('#form-write')[0].reset(); // jQuery 객체집합에서 DOM객체를 뽑아서 사용
     });
 });
 </script>

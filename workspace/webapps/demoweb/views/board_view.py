@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, redirect, request, url_for
+from ..db_utils import board_util
 
 board_bp = Blueprint("board", __name__, url_prefix="/board")
 
@@ -6,6 +7,14 @@ board_bp = Blueprint("board", __name__, url_prefix="/board")
 def list():
     return render_template('board/list.html')
 
-@board_bp.route("/write/")
+@board_bp.route("/write/", methods=['POST', 'GET'])
 def write():
-    return render_template('board/write.html')
+    if request.method.lower() == 'post':
+        title = request.form.get('title', '')
+        writer = request.form.get('writer', '')
+        content = request.form.get('content', '')
+        # print("================>", title, writer, content)
+        board_util.insert_board(title, writer, content)
+        return redirect(url_for('board.list'))
+    else:
+        return render_template('board/write.html')
