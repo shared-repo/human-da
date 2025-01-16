@@ -12,6 +12,18 @@
                         </div>
                         <div class="login-form">
                             <form action="{{ url_for('auth.login') }}" method="post">
+                                {{ form.csrf_token }}
+                                {% if form.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                    {% for field, errors in form.errors.items() %}                            
+                                        {% for error in errors %}
+                                            <li>{{error}}</li>
+                                        {% endfor %}                            
+                                    {% endfor %}                        
+                                    </ul>
+                                </div>
+                                {% endif %}
                                 <div class="form-group">
                                     <label>아이디</label>
                                     <input class="au-input au-input--full" type="text" name="memberid" placeholder="아이디를 입력하세요">

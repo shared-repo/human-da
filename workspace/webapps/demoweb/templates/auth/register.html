@@ -4,15 +4,27 @@
         <div class="page-content--bge5">
             <div class="container">
                 <div class="login-wrap">
-                    <div class="login-content">
+                    <div class="login-content">                        
                         <div class="login-logo">
                             <a href="/">
                                 <img src="/static/images/icon/logo.png" alt="CoolAdmin">
                             </a>
                         </div>
+                        {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <ul>
+                            {% for field, errors in form.errors.items() %}                            
+                                {% for error in errors %}
+                                    <li>{{error}}</li>
+                                {% endfor %}                            
+                            {% endfor %}                        
+                            </ul>
+                        </div>
+                        {% endif %}
                         <div class="login-form">
                             <!-- <form action="/auth/register" method="post"> -->
                             <form action="{{ url_for('auth.register') }}" method="post">
+                                {{ form.csrf_token }}
                                 <div class="form-group">
                                     <label>아이디</label>
                                     <input class="au-input au-input--full" type="text" name="memberid" placeholder="아이디를 입력하세요">
