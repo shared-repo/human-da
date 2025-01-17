@@ -5,7 +5,9 @@ board_bp = Blueprint("board", __name__, url_prefix="/board")
 
 @board_bp.route("/list/")
 def list():
-    return render_template('board/list.html')
+    # 데이터 조회 ( db_util 사용 )
+    boards = board_util.select_board_list(result_type='dict')
+    return render_template('board/list.html', boards=boards)
 
 @board_bp.route("/write/", methods=['POST', 'GET'])
 def write():
