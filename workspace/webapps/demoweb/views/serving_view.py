@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from flask import request
+from flask import request, jsonify
 
 
 serving_bp = Blueprint("serving", __name__, url_prefix="/serving")
@@ -22,11 +22,17 @@ def predict():
     # 요청 데이터 읽기 ( 이미지 파일 데이터 읽기 )
     files = request.files # 파일 데이터 읽기 ( cf. request.args, request.form )
     if 'img_input' not in files: # img_input 입력 요소가 없는 경우
-        return "error 1"
+        return jsonify({
+            "result": "fail",
+            "message": "No file part"
+        }), 400
     
     file = files['img_input']
     if len(file.filename) == 0:      # img_input에 파일이 선택되지 않은 경우
-        return "error 2"
+        return jsonify({
+            "result": "fail",
+            "message": "File not selected"
+        }), 400
     
     image_input = Image.open(file) # 파일을 이미지 형식으로 변경
     image_input = image_input.resize((28, 28)) # 모델의 입력 크기에 맞게 이미지 크기 변경
@@ -43,4 +49,10 @@ def predict():
     predicted_class = np.argmax(predictions, axis=1)
     confidence = np.max(predictions)
 
-    return f"[PREDICTED CLASS : {predicted_class}][CONFIDENCE : {confidence}]"
+    # return f"[PREDICTED CLASS : {predicted_class}][CONFIDENCE : {confidence}]"
+    return jsonify({
+        "result": "success",
+        "message": "",
+        "predicted_class": str(predicted_class),
+        "confidence": str(confidence)
+    })

@@ -90,7 +90,9 @@ $(function() {
             "processData": false,   // 파일 업로드를 위한 설정
             "success": function(result, status, xhr) { // 요청에 대한 응답이 오면 호출
                 // alert(result);                
-                $('#result').val(result);
+                // $('#result').val(result);
+                msg = `[번호 : ${result.predicted_class}][신뢰도 : ${result.confidence}]`;
+                $('#result').val(msg);
             },
             "error": function(xhr, status, err) { // 요청이 실패하면 호출
                 alert('fail to execute predicting');
