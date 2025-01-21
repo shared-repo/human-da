@@ -14,7 +14,7 @@
                             <label for="title" class=" form-control-label">제목</label>
                         </div>
                         <div class="col-12 col-md-10">
-                            <input type="text" id="title" readonly class="form-control">
+                            <input type="text" id="title" readonly class="form-control" value="{{ board['title'] }}">
                         </div>
                     </div>                    
                     <div class="row form-group">
@@ -22,7 +22,7 @@
                             <label for="writer" class=" form-control-label">작성자</label>
                         </div>
                         <div class="col-12 col-md-10">
-                            <input type="text" id="writer" readonly class="form-control">
+                            <input type="text" id="writer" readonly class="form-control" value="{{ board['writer'] }}">
                         </div>
                     </div>
                     <div class="row form-group">
@@ -30,7 +30,7 @@
                             <label for="readcount" class=" form-control-label">조회수</label>
                         </div>
                         <div class="col-12 col-md-10">
-                            <input type="text" id="readcount" readonly class="form-control">
+                            <input type="text" id="readcount" readonly class="form-control" value="{{ board['readcount'] }}">
                         </div>
                     </div>
                     <div class="row form-group">
@@ -38,7 +38,7 @@
                             <label for="writedate" class=" form-control-label">작성일자</label>
                         </div>
                         <div class="col-12 col-md-10">
-                            <input type="text" id="writedate" readonly class="form-control">
+                            <input type="text" id="writedate" readonly class="form-control" value="{{ board['writedate'] }}">
                         </div>
                     </div>
                     <div class="row form-group">
@@ -46,7 +46,7 @@
                             <label for="modifydate" class=" form-control-label">수정일자</label>
                         </div>
                         <div class="col-12 col-md-10">
-                            <input type="text" id="modifydate" readonly class="form-control">
+                            <input type="text" id="modifydate" readonly class="form-control" value="{{ board['modifydate'] }}">
                         </div>
                     </div>
                     <div class="row form-group">
@@ -62,7 +62,8 @@
                             <label for="content" class=" form-control-label">내용</label>
                         </div>
                         <div class="col-12 col-md-10">
-                            <textarea id="content" rows="9" readonly class="form-control"></textarea>
+                            <textarea id="content" rows="9" 
+                                      readonly class="form-control">{{ board['content'] }}</textarea>
                         </div>
                     </div>                    
                 </form>

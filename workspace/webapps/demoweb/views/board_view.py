@@ -48,4 +48,7 @@ def detail():
     if not boardno:
         return redirect(url_for('board.list'))
     
-    return render_template('board/detail.html')
+    # boardno에 해당하는 게시글 조회 (db_utils 사용)
+    board = board_util.select_board_by_boardno(boardno, result_type='dict')
+    
+    return render_template('board/detail.html', board=board)
