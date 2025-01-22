@@ -9,12 +9,13 @@
             </div>
             <div class="card-body card-block">                
                 <form class="form-horizontal">
+                    <input type="hidden" name="boardno" value="{{ board['boardno'] }}">
                     <div class="row form-group">
                         <div class="col col-md-2">
                             <label for="title" class=" form-control-label">제목</label>
                         </div>
                         <div class="col-12 col-md-10">
-                            <input type="text" id="title" readonly class="form-control" value="{{ board['title'] }}">
+                            <input type="text" id="title" class="form-control" value="{{ board['title'] }}">
                         </div>
                     </div>                    
                     <div class="row form-group">
@@ -63,7 +64,7 @@
                         </div>
                         <div class="col-12 col-md-10">
                             <textarea id="content" rows="9" style="resize: none;"
-                                      readonly class="form-control">{{ board['content'] }}</textarea>
+                                      class="form-control">{{ board['content'] }}</textarea>
                         </div>
                     </div>                    
                 </form>
@@ -99,8 +100,10 @@ $(function() {
             location.href = "/board/delete/?boardno={{ board['boardno'] }}";
         }
     });
-    $('#btn-edit').on('click', function(event) {        
-        location.href = "/board/update/?boardno={{ board['boardno'] }}";        
+    $('#btn-edit').on('click', function(event) {
+        if (yn) {
+            location.href = "/board/update/?boardno={{ board['boardno'] }}";
+        }
     });
 });
 </script>

@@ -50,8 +50,10 @@ def detail():
     
     # boardno에 해당하는 게시글 조회 (db_utils 사용)
     board = board_util.select_board_by_boardno(boardno, result_type='dict')
-    
-    return render_template('board/detail.html', board=board)
+    if not board:
+        return redirect(url_for('board.list'))
+    else:
+        return render_template('board/detail.html', board=board)
 
 @board_bp.route('/delete/', methods=['GET'])
 def delete():
@@ -63,6 +65,19 @@ def delete():
 
     # 목록으로 이동
     return redirect(url_for('board.list'))
+
+@board_bp.route('/update/', methods=['GET', 'POST'])
+def update():
+    boardno = request.args.get('boardno')
+    if not boardno:
+        return redirect(url_for('board.list'))
+    
+    # boardno에 해당하는 게시글 조회 (db_utils 사용)
+    board = board_util.select_board_by_boardno(boardno, result_type='dict')
+    if not board:
+        return redirect(url_for('board.list'))
+    else:
+        return render_template('board/update.html', board=board)
     
     
     

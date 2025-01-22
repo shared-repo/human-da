@@ -22,8 +22,12 @@
                     <tr>
                         <td class="text-center">{{ board['boardno'] }}</td>
                         <td>
+                            {% if board['deleted'] %}
+                            <span style="color:gray">{{ board['title'] }} (삭제된 글)</span>
+                            {% else %}
                             <!-- <a href="/board/detail?boardno={{ board['boardno'] }}">{{ board['title'] }}</a> -->
                             <a href="{{ url_for('board.detail', boardno=board['boardno']) }}">{{ board['title'] }}</a>                            
+                            {% endif %}
                         </td>
                         <td class="text-center">{{ board['writer'] }}</td>
                         <td class="text-center">{{ board['readcount'] }}</td>

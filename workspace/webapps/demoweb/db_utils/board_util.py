@@ -45,7 +45,7 @@ def select_board_by_boardno(boardno, result_type='list'):
 
     sql = """select boardno, title, writer, content, readcount, writedate, modifydate, deleted
              from board
-             where boardno = %s"""
+             where boardno = %s and deleted = FALSE"""
     cursor.execute(sql, [boardno])
 
     rows = cursor.fetchall()    
@@ -53,7 +53,9 @@ def select_board_by_boardno(boardno, result_type='list'):
     cursor.close()
     conn.close()
 
-    if result_type == 'list':
+    if len(rows) == 0:
+        return None
+    elif result_type == 'list':
         return rows[0]
     else:
         cols = "boardno,title,writer,content,readcount,writedate,modifydate,deleted".split(",")
