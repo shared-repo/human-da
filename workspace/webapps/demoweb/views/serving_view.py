@@ -37,7 +37,7 @@ def predict():
     image_input = Image.open(file) # 파일을 이미지 형식으로 변경
     image_input = image_input.resize((28, 28)) # 모델의 입력 크기에 맞게 이미지 크기 변경
     image_array = tf_keras.utils.img_to_array(image_input)
-    image_array /= image_array # 모델의 입력 형식에 맞게 데이터 변경 : 0 ~ 255 -> 0 ~ 1 
+    image_array /= 255 # 모델의 입력 형식에 맞게 데이터 변경 : 0 ~ 255 -> 0 ~ 1 
     image_array = np.expand_dims(image_array, 0) # 단일 입력을 배치 입력으로 변환
 
     rpath = serving_bp.root_path # Blueprint가 존재하는 경로

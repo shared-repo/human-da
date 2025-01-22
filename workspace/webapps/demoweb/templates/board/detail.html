@@ -62,21 +62,34 @@
                             <label for="content" class=" form-control-label">내용</label>
                         </div>
                         <div class="col-12 col-md-10">
-                            <textarea id="content" rows="9" 
+                            <textarea id="content" rows="9" style="resize: none;"
                                       readonly class="form-control">{{ board['content'] }}</textarea>
                         </div>
                     </div>                    
                 </form>
             </div>
             <div class="card-footer text-right">
-                <button id="btn-submit" type="submit" class="btn btn-primary btn-sm">
-                    <i class="fa fa-dot-circle-o"></i> 글쓰기
+                <button id="btn-list" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-list"></i> 목록
                 </button>
-                <button id="btn-reset" type="reset" class="btn btn-danger btn-sm">
-                    <i class="fa fa-ban"></i> 초기화
+                <button id="btn-edit" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-edit"></i> 수정
+                </button>
+                <button id="btn-delete" type="button" class="btn btn-danger btn-sm">
+                    <i class="fa fa-ban"></i> 삭제
                 </button>
             </div>        
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block js_block %}
+<script>
+$(function() {
+    $('#btn-list').on('click', function(event) {
+        location.href = "/board/list/";
+    });
+});
+</script>
 {% endblock %}
