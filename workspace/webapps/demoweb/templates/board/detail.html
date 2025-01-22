@@ -72,12 +72,14 @@
                 <button id="btn-list" type="button" class="btn btn-primary btn-sm">
                     <i class="fa fa-list"></i> 목록
                 </button>
+                {% if session.get('loginuser') and session.get('loginuser')['memberid'] == board['writer'] %}
                 <button id="btn-edit" type="button" class="btn btn-primary btn-sm">
                     <i class="fa fa-edit"></i> 수정
                 </button>
                 <button id="btn-delete" type="button" class="btn btn-danger btn-sm">
                     <i class="fa fa-ban"></i> 삭제
                 </button>
+                {% endif %}
             </div>        
         </div>
     </div>
@@ -89,6 +91,13 @@
 $(function() {
     $('#btn-list').on('click', function(event) {
         location.href = "/board/list/";
+    });
+
+    $('#btn-delete').on('click', function(event) {
+        const yn = confirm("{{ board['boardno'] }}번 글을 삭제할까요?");
+        if (yn) {
+            location.href = "/board/delete/?boardno={{ board['boardno'] }}";
+        }
     });
 });
 </script>

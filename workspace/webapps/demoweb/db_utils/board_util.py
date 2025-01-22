@@ -67,3 +67,18 @@ def result_as_dict(rows, columns):
         d = { c:v for c, v in zip(columns, row) }
         dict_list.append(d)
     return dict_list
+
+def delete_board(boardno):
+    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+                           user="humanda", passwd="humanda")
+    
+    cursor = conn.cursor()
+
+    # sql = """delete board where boardno = %s"""
+    sql = """update board set deleted = TRUE where boardno = %s"""
+    cursor.execute(sql, [boardno])
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()

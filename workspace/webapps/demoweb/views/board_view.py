@@ -52,3 +52,17 @@ def detail():
     board = board_util.select_board_by_boardno(boardno, result_type='dict')
     
     return render_template('board/detail.html', board=board)
+
+@board_bp.route('/delete/', methods=['GET'])
+def delete():
+    boardno = request.args.get("boardno")
+    if boardno:
+        # print('----------------------->', boardno)
+        # 데이터베이스에서 boardno로 데이터 삭제 ( db_util 모듈 사용 )
+        board_util.delete_board(boardno)
+
+    # 목록으로 이동
+    return redirect(url_for('board.list'))
+    
+    
+    
