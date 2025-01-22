@@ -68,16 +68,28 @@ def delete():
 
 @board_bp.route('/update/', methods=['GET', 'POST'])
 def update():
-    boardno = request.args.get('boardno')
-    if not boardno:
-        return redirect(url_for('board.list'))
+    if request.method.lower() == 'get':
+        boardno = request.args.get('boardno')
+        if not boardno:
+            return redirect(url_for('board.list'))
+        
+        # boardno에 해당하는 게시글 조회 (db_utils 사용)
+        board = board_util.select_board_by_boardno(boardno, result_type='dict')
+        if not board:
+            return redirect(url_for('board.list'))
+        else:
+            return render_template('board/update.html', board=board)
+    else: # post 요청 처리 영역
+        # 요청 데이터 읽기
+        boardno = request.form.get('boardno')
+        title = request.form.get('title')
+        content = request.form.get('content')
+        # 데이터베이스의 데이터 수정 (board_util 모듈 사용)
+        board_util.update_board(boardno, title, content)
+
+        return redirect(url_for('board.detail', boardno=boardno))
     
-    # boardno에 해당하는 게시글 조회 (db_utils 사용)
-    board = board_util.select_board_by_boardno(boardno, result_type='dict')
-    if not board:
-        return redirect(url_for('board.list'))
-    else:
-        return render_template('board/update.html', board=board)
+
     
     
     

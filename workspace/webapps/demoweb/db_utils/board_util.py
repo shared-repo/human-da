@@ -84,3 +84,17 @@ def delete_board(boardno):
 
     cursor.close()
     conn.close()
+
+def update_board(boardno, title, content):
+    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+                           user="humanda", passwd="humanda")
+    
+    cursor = conn.cursor()
+
+    sql = """update board set title = %s, content = %s where boardno = %s"""
+    cursor.execute(sql, [title, content, boardno])
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
