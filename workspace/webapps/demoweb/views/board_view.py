@@ -19,14 +19,20 @@ def list():
     page_no = request.args.get('page_no', 1) # 요청 데이터는 모두 문자열
     pager = {
         "page_no": int(page_no),   # 현재 페이지 번호
-        "page_size": 3  # 한 페이지에 보여질 글 갯수
+        "page_size": 3,  # 한 페이지에 보여질 글 갯수
+        "pager_size": 3, # 한 번에 표시될 페이지 번호 갯수
     }
-    # 데이터 조회 ( db_util 사용 )
+    data_cnt = board_util.select_board_count()
+    pager['page_cnt'] = (data_cnt // pager['page_size']) + \
+                        (1 if (data_cnt % pager['page_size']) > 0 else 0)
+    pager['page_start'] = ( (pager['page_no'] - 1) // pager['pager_size'] ) * pager['pager_size'] + 1
+    pager['page_end'] = pager['page_start'] + pager['pager_size'] 
+
     start = (pager["page_no"] - 1) * pager["page_size"]
     boards = board_util.select_board_list_with_paging(start, 
                                                       pager["page_size"], 
                                                       result_type='dict')
-    return render_template('board/list.html', boards=boards)
+    return render_template('board/list.html', boards=boards, pager=pager)
 
 # Form을 사용하지 않은 write 처리
 # @board_bp.route("/write/", methods=['POST', 'GET'])

@@ -60,6 +60,22 @@ def select_board_list_with_paging(start, page_size, result_type='list'):
     else:
         return result_as_dict(rows, ["boardno", "title", "writer", "readcount", "writedate", "modifydate", "deleted"])
 
+def select_board_count():
+    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+                           user="humanda", passwd="humanda")
+    
+    cursor = conn.cursor()
+
+    sql = """select count(*) from board"""
+    cursor.execute(sql)
+
+    row = cursor.fetchone() # 1행 조회
+    
+    cursor.close()
+    conn.close()
+
+    return row[0] # 조회된 행의 1열 반환
+
 
 def select_board_by_boardno(boardno, result_type='list'):
     conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
