@@ -37,6 +37,30 @@ def select_board_list(result_type='list'):
     else:
         return result_as_dict(rows, ["boardno", "title", "writer", "readcount", "writedate", "modifydate", "deleted"])
 
+
+def select_board_list_with_paging(start, page_size, result_type='list'):
+    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+                           user="humanda", passwd="humanda")
+    
+    cursor = conn.cursor()
+
+    sql = """select boardno, title, writer, readcount, writedate, modifydate, deleted
+             from board
+             order by boardno desc
+             limit %s,%s"""
+    cursor.execute(sql, [start, page_size])
+
+    rows = cursor.fetchall()    
+    
+    cursor.close()
+    conn.close()
+
+    if result_type == 'list':
+        return rows
+    else:
+        return result_as_dict(rows, ["boardno", "title", "writer", "readcount", "writedate", "modifydate", "deleted"])
+
+
 def select_board_by_boardno(boardno, result_type='list'):
     conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")

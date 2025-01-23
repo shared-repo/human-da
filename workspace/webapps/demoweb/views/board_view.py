@@ -6,10 +6,26 @@ from ..forms import board_form
 
 board_bp = Blueprint("board", __name__, url_prefix="/board")
 
+# paging 없는 목록 처리
+# @board_bp.route("/list/")
+# def list():
+#     # 데이터 조회 ( db_util 사용 )
+#     boards = board_util.select_board_list(result_type='dict')
+#     return render_template('board/list.html', boards=boards)
+
+# paging 있는 목록 처리
 @board_bp.route("/list/")
 def list():
+    page_no = request.args.get('page_no', 1) # 요청 데이터는 모두 문자열
+    pager = {
+        "page_no": int(page_no),   # 현재 페이지 번호
+        "page_size": 3  # 한 페이지에 보여질 글 갯수
+    }
     # 데이터 조회 ( db_util 사용 )
-    boards = board_util.select_board_list(result_type='dict')
+    start = (pager["page_no"] - 1) * pager["page_size"]
+    boards = board_util.select_board_list_with_paging(start, 
+                                                      pager["page_size"], 
+                                                      result_type='dict')
     return render_template('board/list.html', boards=boards)
 
 # Form을 사용하지 않은 write 처리
