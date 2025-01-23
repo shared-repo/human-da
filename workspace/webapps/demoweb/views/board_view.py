@@ -16,6 +16,7 @@ board_bp = Blueprint("board", __name__, url_prefix="/board")
 # paging 있는 목록 처리
 @board_bp.route("/list/")
 def list():
+    import math
     page_no = request.args.get('page_no', 1) # 요청 데이터는 모두 문자열
     pager = {
         "page_no": int(page_no),   # 현재 페이지 번호
@@ -23,8 +24,9 @@ def list():
         "pager_size": 3, # 한 번에 표시될 페이지 번호 갯수
     }
     data_cnt = board_util.select_board_count()
-    pager['page_cnt'] = (data_cnt // pager['page_size']) + \
-                        (1 if (data_cnt % pager['page_size']) > 0 else 0)
+    # pager['page_cnt'] = (data_cnt // pager['page_size']) + \
+    #                     (1 if (data_cnt % pager['page_size']) > 0 else 0)
+    pager['page_cnt'] = math.ceil(data_cnt / pager['page_size'])
     pager['page_start'] = ( (pager['page_no'] - 1) // pager['pager_size'] ) * pager['pager_size'] + 1
     pager['page_end'] = pager['page_start'] + pager['pager_size'] 
 

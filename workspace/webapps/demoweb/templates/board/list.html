@@ -41,19 +41,55 @@
         <nav aria-label="board pager">
             <ul class="pagination justify-content-center">
               <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
+                    {% if pager['page_no'] > 1 %}
+                    <a class="page-link" href="{{ url_for('board.list', page_no=1) }}" aria-label="First">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                    {% else %}
+                    <a class="page-link" href="javascript:" aria-label="First">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                    {% endif %}
+              </li>
+              <li class="page-item">
+                {% if pager['page_no'] > 1 %}
+                <a class="page-link" href="{{ url_for('board.list', page_no=(pager['page_no']-1)) }}" aria-label="Previous">
+                  <span aria-hidden="true">&lt;</span>
                 </a>
+                {% else %}
+                <a class="page-link" href="javascript:" aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+                {% endif %}
               </li>
               {% for page_no in range(pager['page_start'], pager['page_end']) %}
+              {% if page_no <= pager['page_cnt'] %}              
               <li class="page-item">
                 <a class="page-link" href="{{ url_for('board.list', page_no=page_no) }}">{{ page_no }}</a>
               </li>
+              {% endif %}
               {% endfor %}
               <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
+                {% if pager['page_no'] < pager['page_cnt'] %}
+                <a class="page-link" href="{{ url_for('board.list', page_no=(pager['page_no']+1)) }}" aria-label="Next">
+                  <span aria-hidden="true">&gt;</span>
+                </a>
+                {% else %}
+                <a class="page-link" href="javascript:" aria-label="Previous">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+                {% endif %}
+              </li>
+              <li class="page-item">
+                {% if pager['page_no'] < pager['page_cnt'] %}
+                <a class="page-link" href="{{ url_for('board.list', page_no=pager['page_cnt']) }}" aria-label="Last">
                   <span aria-hidden="true">&raquo;</span>
                 </a>
+                {% else %}
+                <a class="page-link" href="javascript:" aria-label="Last">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                {% endif %}
               </li>
             </ul>
         </nav>
