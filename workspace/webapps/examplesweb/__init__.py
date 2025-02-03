@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, send_from_directory
+
+import os
 
 def create_app():
 
@@ -45,6 +47,42 @@ def create_app():
         print(a, b)
 
         return render_template('demo.html')
+    
+    @app.route("/file-upload-test/", methods=['GET'])
+    def show_file_upload_page():
+        upload_dir = os.path.join(app.root_path, 'upload-files')
+        file_names = os.listdir(upload_dir)
+        return render_template('file-upload-test.html', fnames=file_names)
+    
+    @app.route("/file-upload/", methods=['POST'])
+    def file_upload():
+
+        if 'attachment' not in request.files: # <input type="file" name="attachment"가 없다면
+            return "요청에 파일 선택기가 없습니다."
+        if request.files['attachment'].filename == '': # <input type="file" name="attachment"에 파일을 선택하지 않은 경우
+            return "파일을 선택하지 않았습니다."
+        
+        print( request.form.get('formdata') )
+        print( request.files['attachment'].filename )
+
+        # print( os.path.join(app.root_path, 'upload-files' ) )
+        upload_dir = os.path.join(app.root_path, 'upload-files')
+        if (not os.path.exists(upload_dir)):
+            os.mkdir(upload_dir)
+
+        file_path = os.path.join(upload_dir, request.files['attachment'].filename)
+        request.files['attachment'].save(file_path)
+
+        return redirect("/file-upload-test/")
+    
+
+    @app.route("/file-download/")
+    def file_download():
+        file_name = request.args.get('filename')
+        upload_dir = os.path.join(app.root_path, 'upload-files')
+
+        return send_from_directory(upload_dir, file_name, 
+                                   as_attachment=True) # mime-type : application/octet-stream
 
     return app
 

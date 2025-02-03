@@ -33,8 +33,14 @@ auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 # Form을 사용하는 회원가입 처리 구현
 @auth_bp.route("/register/", methods=['GET', 'POST'])
 def register():
-    form = auth_form.RegisterForm()
+    form = auth_form.RegisterForm()    
     if request.method.lower() == 'post' and form.validate_on_submit():
+
+        print(form.gender.data, request.form.get('gender'))
+        print(form.interest.data, request.form.getlist('interest'))
+        print(','.join(form.interest.data))
+        return 'test'
+    
         passwd_hash = generate_password_hash(form.passwd.data)
         auth_util.insert_member(form.memberid.data, passwd_hash, form.email.data)
         return redirect( url_for('auth.login') )

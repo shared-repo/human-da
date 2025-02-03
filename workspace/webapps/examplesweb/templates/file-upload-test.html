@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>File Upload/Download Test</h3>
+    <hr>
+    <form action="/file-upload/"
+          method="post" enctype="multipart/form-data">
+    
+        데이터 : <input type="text" name="formdata">
+        <br>
+        파일 : <input type="file" name="attachment">
+        <br><br>
+        <input type="submit" value="파일 업로드">
+        
+    </form>
+
+    <hr>
+    <h3>업로드 파일 목록</h3>
+    {% for fname in fnames %}
+        <a href="/file-download/?filename={{fname}}">{{ fname }}</a><br>
+    {% endfor %}
+    
+</body>
+</html>
