@@ -1,6 +1,10 @@
 from flask import Blueprint, render_template, redirect
 from flask import request, url_for, session
 
+import os
+import uuid
+from pathlib import Path
+
 from ..db_utils import board_util
 from ..forms import board_form
 
@@ -67,6 +71,12 @@ def write():
             return "파일을 선택하지 않았습니다."
         
         # 파일 저장
+        ext = attachment.filename.split('.')[-1] # a/b/c.txt -> ['a/b'c/', 'txt'] -> 'txt'
+        unique_filename = f'{uuid.uuid4().hex}.{ext}'
+        bp_path = board_bp.root_path # Blueprint 경로 : 여기서는 views
+        root_path = Path(bp_path).parent # 부모 경로 : 여기서는 demoweb
+        upload_dir = os.path.join(root_path, "upload-files", unique_filename)
+        attachment.save(upload_dir)
         return attachment.filename
 
         board_util.insert_board(form.title.data, form.writer.data, form.content.data)
