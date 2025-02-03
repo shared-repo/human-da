@@ -60,7 +60,15 @@ def write():
     
     form = board_form.BoardForm()
 
-    if request.method.lower() == 'post' and form.validate_on_submit():        
+    if request.method.lower() == 'post' and form.validate_on_submit():
+
+        attachment = request.files.get("attachment")
+        if not attachment:
+            return "파일을 선택하지 않았습니다."
+        
+        # 파일 저장
+        return attachment.filename
+
         board_util.insert_board(form.title.data, form.writer.data, form.content.data)
         return redirect(url_for('board.list'))
     else:
