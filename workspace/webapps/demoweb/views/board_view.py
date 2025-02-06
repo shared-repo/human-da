@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, redirect, send_from_directory
 from flask import request, url_for, session
 
 import os
@@ -66,20 +66,22 @@ def write():
 
     if request.method.lower() == 'post' and form.validate_on_submit():
 
-        attachment = request.files.get("attachment")
-        if not attachment:
-            return "파일을 선택하지 않았습니다."
+        # 게시판 테이블에 데이터 저장
+        boardno = board_util.insert_board(form.title.data, form.writer.data, form.content.data)
         
-        # 파일 저장
-        ext = attachment.filename.split('.')[-1] # a/b/c.txt -> ['a/b'c/', 'txt'] -> 'txt'
-        unique_filename = f'{uuid.uuid4().hex}.{ext}'
-        bp_path = board_bp.root_path # Blueprint 경로 : 여기서는 views
-        root_path = Path(bp_path).parent # 부모 경로 : 여기서는 demoweb
-        upload_dir = os.path.join(root_path, "upload-files", unique_filename)
-        attachment.save(upload_dir)
-        return attachment.filename
+        attachment = request.files.get("attachment")
+        if attachment:        
+            # 파일 저장 ( 디스크에 저장 )
+            ext = attachment.filename.split('.')[-1] # a/b/c.txt -> ['a/b'c/', 'txt'] -> 'txt'
+            unique_filename = f'{uuid.uuid4().hex}.{ext}'
+            bp_path = board_bp.root_path # Blueprint 경로 : 여기서는 views
+            root_path = Path(bp_path).parent # 부모 경로 : 여기서는 demoweb
+            upload_dir = os.path.join(root_path, "upload-files", unique_filename)
+            attachment.save(upload_dir)
 
-        board_util.insert_board(form.title.data, form.writer.data, form.content.data)
+            # 첨부파일 테이블에 데이터 저장
+            board_util.insert_attachment(boardno, attachment.filename, unique_filename)
+
         return redirect(url_for('board.list'))
     else:
         return render_template('board/write.html', form=form)
@@ -92,10 +94,12 @@ def detail():
     
     # boardno에 해당하는 게시글 조회 (db_utils 사용)
     board = board_util.select_board_by_boardno(boardno, result_type='dict')
+    # boardno에 해당하는 첨부파일 조회 (db_utils 사용)
+    attachments = board_util.select_attachments_by_boardno(boardno)
     if not board:
         return redirect(url_for('board.list'))
     else:
-        return render_template('board/detail.html', board=board)
+        return render_template('board/detail.html', board=board, attachments=attachments)
 
 @board_bp.route('/delete/', methods=['GET'])
 def delete():
@@ -130,6 +134,15 @@ def update():
         board_util.update_board(boardno, title, content)
 
         return redirect(url_for('board.detail', boardno=boardno))
+    
+@board_bp.route("/download/", methods=['GET'])
+def download():
+    savedfilename = request.args.get('savedfilename')
+    bp_path = board_bp.root_path # Blueprint 경로 : 여기서는 views
+    root_path = Path(bp_path).parent # 부모 경로 : 여기서는 demoweb
+    upload_dir = os.path.join(root_path, "upload-files")
+
+    return send_from_directory(upload_dir, savedfilename, as_attachment=True)
     
 
     
