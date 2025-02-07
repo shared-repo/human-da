@@ -58,7 +58,10 @@
                         <div class="col-12 col-md-10">
                             {% for attachment in attachments %}                                                                                    
                             {{ attachment['userfilename'] }}
-                            [ <a href="{{ url_for('board.delete_attachment') }}">삭제</a> ]
+                            [ <a href="{{ url_for('board.delete_attachment', attachno=attachment['attachno'], boardno=board['boardno']) }}">삭제</a> ]
+                            [ <a id='delete-attach-link' href="javascript:" 
+                                 data-attachno="{{attachment['attachno']}}"
+                                 data-boardno="{{board['boardno']}}">삭제</a> ]
                             <br>
                             {% endfor %}
                         </div>
@@ -114,6 +117,15 @@ $(function() {
 
     $('#btn-update').on('click', function(event) {
         $('#update-form').submit();
+    });
+
+    $('#delete-attach-link').on('click', function(event) {
+        const yn = confirm("첨부파일을 삭제할까요?");
+        if (yn) {
+            const boardno = $(this).data('boardno');
+            const attachno = $(this).data('attachno');
+            location.href = `/board/delete-attachment/?boardno=${boardno}&attachno=${attachno}`;
+        }
     });
 });
 </script>

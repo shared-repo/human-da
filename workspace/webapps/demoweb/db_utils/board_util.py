@@ -215,3 +215,18 @@ def increase_download_count(savedfilename):
 
     cursor.close()
     conn.close()
+
+def delete_attachment(attachno):
+    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+                           user="humanda", passwd="humanda")
+    
+    cursor = conn.cursor()
+
+    sql = """delete from attachment              
+             where attachno = %s"""
+    cursor.execute(sql, [attachno])
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()    

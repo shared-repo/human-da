@@ -174,7 +174,14 @@ def download():
 
 @board_bp.route('/delete-attachment/', methods=['GET'])
 def delete_attachment():
-    return "delete attachment"
+    attachno = request.args.get('attachno')
+    if not attachno:
+        return redirect(url_for('board.list'))
+    
+    board_util.delete_attachment(int(attachno))
+
+    boardno = request.args.get('boardno')
+    return redirect(url_for('board.update', boardno=boardno))
     
 
     
