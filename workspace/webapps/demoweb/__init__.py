@@ -16,5 +16,4 @@ def create_app():
     app.register_blueprint(board_view.board_bp)
     app.register_blueprint(serving_view.serving_bp)
 
-
     return app

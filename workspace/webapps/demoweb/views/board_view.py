@@ -10,6 +10,16 @@ from ..forms import board_form
 
 board_bp = Blueprint("board", __name__, url_prefix="/board")
 
+
+@board_bp.before_request # "/board/* 요청에 대해 route 함수 실행 전에 호출되는 함수
+def before_request():
+    # print("----------------------> ", request.url)
+    if 'write' in request.url or \
+       'delete' in request.url or \
+       'update' in request.url:
+        if not session.get('loginuser'):    # 로그인하지 않은 사용자는
+            return redirect(url_for('auth.login')) # 로그인 화면으로 보내기
+
 # paging 없는 목록 처리
 # @board_bp.route("/list/")
 # def list():
@@ -59,8 +69,9 @@ def list():
 # Form을 사용하는 write 처리
 @board_bp.route("/write/", methods=['POST', 'GET'])
 def write():
-    if not session.get('loginuser'):    # 로그인하지 않은 사용자는
-        return redirect(url_for('auth.login')) # 로그인 화면으로 보내기
+    # 아래 로그인 체크 코드는 @board_bp.before_request 영역으로 이동
+    # if not session.get('loginuser'):    # 로그인하지 않은 사용자는
+    #     return redirect(url_for('auth.login')) # 로그인 화면으로 보내기
     
     form = board_form.BoardForm()
 
@@ -113,7 +124,7 @@ def detail():
         return render_template('board/detail.html', board=board, attachments=attachments)
 
 @board_bp.route('/delete/', methods=['GET'])
-def delete():
+def delete():    
     boardno = request.args.get("boardno")
     if boardno:
         # print('----------------------->', boardno)
@@ -132,10 +143,12 @@ def update():
         
         # boardno에 해당하는 게시글 조회 (db_utils 사용)
         board = board_util.select_board_by_boardno(boardno, result_type='dict')
+        # boardno에 해당하는 첨부파일 조회 (db_utils 사용)
+        attachments = board_util.select_attachments_by_boardno(boardno)
         if not board:
             return redirect(url_for('board.list'))
         else:
-            return render_template('board/update.html', board=board)
+            return render_template('board/update.html', board=board, attachments=attachments)
     else: # post 요청 처리 영역
         # 요청 데이터 읽기
         boardno = request.form.get('boardno')
@@ -158,6 +171,10 @@ def download():
     upload_dir = os.path.join(root_path, "upload-files")
 
     return send_from_directory(upload_dir, savedfilename, as_attachment=True)
+
+@board_bp.route('/delete-attachment/', methods=['GET'])
+def delete_attachment():
+    return "delete attachment"
     
 
     

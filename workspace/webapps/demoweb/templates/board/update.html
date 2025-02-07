@@ -56,7 +56,11 @@
                             <label for="attachment" class=" form-control-label">첨부파일</label>
                         </div>
                         <div class="col-12 col-md-10">
-                            <input type="file" id="attachment" name="attachment" class="form-control-file">
+                            {% for attachment in attachments %}                                                                                    
+                            {{ attachment['userfilename'] }}
+                            [ <a href="{{ url_for('board.delete_attachment') }}">삭제</a> ]
+                            <br>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="row form-group">
