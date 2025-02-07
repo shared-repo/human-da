@@ -107,7 +107,22 @@ def select_board_by_boardno(boardno, result_type='list'):
         cols = "boardno,title,writer,content,readcount,writedate,modifydate,deleted".split(",")
         results = result_as_dict(rows, cols)
         return results[0]
+    
+def increase_read_count(boardno):
+    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+                           user="humanda", passwd="humanda")
+    
+    cursor = conn.cursor()
 
+    sql = """update board 
+             set readcount = readcount + 1
+             where boardno = %s and deleted = FALSE"""
+    cursor.execute(sql, [boardno])
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
 
 def result_as_dict(rows, columns):
     dict_list = []
