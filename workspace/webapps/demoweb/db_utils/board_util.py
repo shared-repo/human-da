@@ -198,4 +198,20 @@ def select_attachments_by_boardno(boardno, result_type='dict'):
     else:
         return result_as_dict(rows, ["attachno", "boardno", "userfilename", 
                                      "savedfilename", "downloadcnt"])
-    pass
+    
+
+def increase_download_count(savedfilename):
+    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+                           user="humanda", passwd="humanda")
+    
+    cursor = conn.cursor()
+
+    sql = """update attachment 
+             set downloadcnt = downloadcnt + 1
+             where savedfilename = %s"""
+    cursor.execute(sql, [savedfilename])
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()

@@ -55,7 +55,16 @@
                         </div>
                         <div class="col-12 col-md-10">
                             {% for attachment in attachments %}                            
-                            <a href="{{ url_for('board.download', savedfilename=attachment['savedfilename']) }}">{{ attachment['userfilename'] }}</a><br>
+                            <a href="{{ url_for('board.download', savedfilename=attachment['savedfilename']) }}">
+                                {{ attachment['userfilename'] }}
+                            </a>
+                            &nbsp;&nbsp;
+                            <a id="download-link" href="javascript:"
+                               data-savedfilename="{{attachment['savedfilename']}}">
+                                {{ attachment['userfilename'] }}
+                            </a>
+                            [ <span id="download-count">{{ attachment['downloadcnt'] }}</span> ]
+                            <br>
                             {% endfor %}                            
                         </div>
                     </div>
@@ -103,6 +112,16 @@ $(function() {
     });
     $('#btn-edit').on('click', function(event) {        
         location.href = "/board/update/?boardno={{ board['boardno'] }}";        
+    });
+
+    //////////////////////
+
+    $('#download-link').on('click', function(event) {
+        const savedfilename = $(this).data('savedfilename'); // data-savedfilename 속성 읽기
+        location.href = `/board/download/?savedfilename=${savedfilename}`;
+
+        const download_cnt = $('#download-count').text();
+        $('#download-count').text(parseInt(download_cnt) + 1);
     });
 });
 </script>

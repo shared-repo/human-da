@@ -149,6 +149,10 @@ def update():
 @board_bp.route("/download/", methods=['GET'])
 def download():
     savedfilename = request.args.get('savedfilename')
+
+    # 다운로드 횟수 컬럼 값 증가
+    board_util.increase_download_count(savedfilename)
+
     bp_path = board_bp.root_path # Blueprint 경로 : 여기서는 views
     root_path = Path(bp_path).parent # 부모 경로 : 여기서는 demoweb
     upload_dir = os.path.join(root_path, "upload-files")
