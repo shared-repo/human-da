@@ -70,36 +70,23 @@
             chatInput.css('height', `${chatInput[0].scrollHeight}px`);
         });
 
-        const handleChat = async () => {
+        function handleChat() {
           const message = chatInput.val();
           if (message.length == 0) {
             return;
           }
 
-          // Clear the input textarea and set its height to default
-          chatInput.val(""); // 메시지 입력창 내용 지우기
-          chatInput.css('height', `${inputInitHeight}px`); // 메시지 입력창 높이 초기화
+          $.ajax({
+            "url": "/chatbot/chat-text/",
+            "method": "post",
+            "data": {"message": message},
+            "success": function(resp, status, xhr) {
+              console.log(resp)
+            },
+            "error": function(xhr, status, err) {
 
-          // Append the user's message to the chatbox
-          chatbox.append(createChatLi(message, "outgoing")); // 대화창에 메시지 추가
-          chatbox.scrollTop(chatbox[0].scrollHeight); // 마지막 메시지 위치로 스크롤 이동
-
-          const incomingChatLi = createChatLi("Thinking...", "incoming");
-          chatbox.append(incomingChatLi);
-          chatbox.scrollTop(chatbox[0].scrollHeight);
-
-          try {
-            const resp = await fetch("/chatbot/chat-text/", {
-              "method": "post", 
-              "headers": {"Content-Type": "application/json;charset=utf-8"},
-              "body": JSON.stringify({"message": message})
-            });
-
-            json_resp = await resp.json();            
-            generateResponse(incomingChatLi, json_resp.message);
-          } catch (e) {
-          } finally {            
-          }          
+            }
+          });
         }
 
         chatInput.on("keydown", (e) => {
