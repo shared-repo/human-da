@@ -68,3 +68,14 @@ def handle_chat_text_with_history():
     session['chat-history'] = chat_history
 
     return jsonify({ 'message' : completion.choices[0].message.content })
+
+
+@chatbot_bp.route("/reload-chat-history/")
+def reload_chat_history():
+    chat_history = session.get("chat-history", [])
+    if len(chat_history) == 0: # if chat_history:
+        chat_history.append({ "role": "system", "content": "당신은 모든 정보를 잘 알고 있는 친절한 안내자입니다. 질문에 대해 가능한 간결하게 답변해야 합니다." })
+
+    session['chat-history'] = chat_history
+
+    return jsonify( chat_history[1:] if len(chat_history) > 1 else [] )

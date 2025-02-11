@@ -89,7 +89,7 @@
           chatbox.scrollTop(chatbox[0].scrollHeight);
 
           try {
-            const resp = await fetch("/chatbot/chat-text-with-history/", {
+            const resp = await fetch("/chatbot/chat-text/", {
               "method": "post", 
               "headers": {"Content-Type": "application/json;charset=utf-8"},
               "body": JSON.stringify({"message": message})
@@ -115,18 +115,6 @@
 
         closeBtn.on("click", () => $('body').removeClass("show-chatbot"));
         chatbotToggler.on('click', (event) => $('body').toggleClass('show-chatbot') );
-
-        const restore_chat_history = async () => {
-          const resp = await fetch("/chatbot/reload-chat-history/");
-          json_resp = await resp.json();
-          console.log(json_resp);
-          for (let i = 0; i < json_resp.length; i++) {
-            const message = json_resp[i].content;
-            const direction = json_resp[i].role == 'user' ? "outgoing" : "incoming";
-            chatbox.append(createChatLi(message, direction));
-          }
-        }
-        restore_chat_history();
 
       });
     </script>
