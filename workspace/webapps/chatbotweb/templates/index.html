@@ -70,7 +70,7 @@
             chatInput.css('height', `${chatInput[0].scrollHeight}px`);
         });
 
-        const handleChat = async () => {
+        const handleChat = async () => { // async : 이 함수는 비동기 방식으로 실행
           const message = chatInput.val();
           if (message.length == 0) {
             return;
@@ -85,7 +85,7 @@
           chatbox.scrollTop(chatbox[0].scrollHeight); // 마지막 메시지 위치로 스크롤 이동
 
           const incomingChatLi = createChatLi("Thinking...", "incoming");
-          chatbox.append(incomingChatLi);
+          chatbox.append(incomingChatLi); // 대화창에 메시지 추가
           chatbox.scrollTop(chatbox[0].scrollHeight);
 
           try {
@@ -96,7 +96,7 @@
             });
 
             json_resp = await resp.json();            
-            generateResponse(incomingChatLi, json_resp.message);
+            generateResponse(incomingChatLi, json_resp.message); // 마지막에 추가된 메시지 (생각중...) 수정
           } catch (e) {
           } finally {            
           }          
