@@ -2,10 +2,13 @@ from flask import Blueprint, request, jsonify, session, current_app
 from openai import OpenAI
 import os
 import shutil
+<<<<<<< HEAD
 from pathlib import Path
 
 from ..db_utils import chromadb_helper
 from ..db_utils.chromadb_helper2 import ChromadbHelper
+=======
+>>>>>>> 1a01b0a5c40b7d3a40d34c61477bc7a466534103
 
 chatbot_bp = Blueprint("chatbot", __name__, url_prefix="/chatbot")
 
@@ -283,6 +286,12 @@ def reload_chat_history():
     if len(chat_history) == 0: # if chat_history:
         chat_history.append({ "role": "system", "content": "당신은 모든 정보를 잘 알고 있는 친절한 안내자입니다. 질문에 대해 가능한 간결하게 답변해야 합니다." })
         # chat_history.append({ "role": "system", "content": system_message })
+
+@chatbot_bp.route("/reload-chat-history/")
+def reload_chat_history():
+    chat_history = session.get("chat-history", [])
+    if len(chat_history) == 0: # if chat_history:
+        chat_history.append({ "role": "system", "content": "당신은 모든 정보를 잘 알고 있는 친절한 안내자입니다. 질문에 대해 가능한 간결하게 답변해야 합니다." })
 
     session['chat-history'] = chat_history
 
