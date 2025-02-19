@@ -14,7 +14,7 @@ RUN git clone https://github.com/shared-repo/human-da.git \
 
 EXPOSE 5000
 
-ENV OPENAI_API_KEY=
+
 
 CMD ["flask", "--app", "chatbotweb2", "--debug", "run", "--host=0.0.0.0"]
 
