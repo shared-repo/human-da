@@ -4,9 +4,6 @@ import os
 import shutil
 from pathlib import Path
 
-from ..db_utils import chromadb_helper
-from ..db_utils.chromadb_helper2 import ChromadbHelper
-
 chatbot_bp = Blueprint("chatbot", __name__, url_prefix="/chatbot")
 
 # os.environ['OPENAI_API_KEY'] = ""
@@ -158,10 +155,11 @@ def handle_chat_text_with_vectordb():
     json_data = request.get_json()
     message = json_data.get('message')
 
-    selected_recruits = chromadb_helper.query_similar_documents(message, top_k=5)
+    # selected_recruits = chromadb_helper.query_similar_documents(message, top_k=5)
     
-    recruit_list_str = [f'{idx+1}. {recruit}\n' for idx, recruit 
-                        in enumerate(selected_recruits['documents'][0])]
+    # recruit_list_str = [f'{idx+1}. {recruit}\n' for idx, recruit 
+    #                     in enumerate(selected_recruits['documents'][0])]
+    recruit_list_str = ["test"]
 
     prompt = f"""             
              아래의 고려사항과 지시사항을 적극적으로 반영해서 질문에 대한 답변을 만들어 주세요.
@@ -216,12 +214,14 @@ def handle_chat_text_with_vectordb2():
     # chroma_db_path = os.path.join(root_path, "db_utils", 'chroma-vectordb')
     # helper = ChromadbHelper(chroma_db_path, "recruit_documents")
     
-    helper = current_app.config['CHROMADB_HELPER']
+    # helper = current_app.config['CHROMADB_HELPER']
 
-    selected_recruits = helper.query_similar_documents(message, top_k=5)
+    # selected_recruits = helper.query_similar_documents(message, top_k=5)
     
-    recruit_list_str = [f'{idx+1}. {recruit}\n' for idx, recruit 
-                        in enumerate(selected_recruits['documents'][0])]
+    # recruit_list_str = [f'{idx+1}. {recruit}\n' for idx, recruit 
+    #                     in enumerate(selected_recruits['documents'][0])]
+
+    recruit_list_str = ["test"]
 
     prompt = f"""             
              아래의 고려사항과 지시사항을 적극적으로 반영해서 질문에 대한 답변을 만들어 주세요.

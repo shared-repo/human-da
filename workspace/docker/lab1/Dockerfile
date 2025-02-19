@@ -1,0 +1,5 @@
+FROM mysql:lts
+
+ENV MYSQL_ROOT_PASSWORD=mysql
+
+EXPOSE 3306
