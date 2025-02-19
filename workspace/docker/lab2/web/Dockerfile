@@ -15,5 +15,6 @@ RUN git clone https://github.com/shared-repo/human-da.git
 RUN cp -r ./human-da/workspace/webapps/chatbotweb2 .
 
 
+
 CMD ["flask", "--app", "chatbotweb2", "--debug", "run"]
 
