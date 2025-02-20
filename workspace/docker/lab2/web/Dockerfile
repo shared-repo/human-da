@@ -1,20 +1,23 @@
-FROM python:3.11-alpine
+FROM python:3.11-bookworm
 
-RUN apk update \
-&& apk add git \
+RUN apt update \
 && git config --global user.name "humanda" \
 && git config --global user.email "humanda@example.com" \
-# && apk add --no-cache gcc musl-dev python3-dev build-base \
-&& pip install numpy pandas matplotlib openai flask
+&& pip install numpy pandas matplotlib \
+&& pip install pymysql cryptography \
+&& pip install openai flask \
+# && pip install tensorflow \
+# && pip install torch torchvision torchaudio \
+&& pip install chromadb
 
 WORKDIR /work
 
 RUN git clone https://github.com/shared-repo/human-da.git \
-&& cp -r ./human-da/workspace/webapps/chatbotweb2 .
+&& cp -r ./human-da/workspace/webapps/chatbotweb .
 
 EXPOSE 5000
 
 
 
-CMD ["flask", "--app", "chatbotweb2", "--debug", "run", "--host=0.0.0.0"]
+CMD ["flask", "--app", "chatbotweb", "--debug", "run", "--host=0.0.0.0"]
 

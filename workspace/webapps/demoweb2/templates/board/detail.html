@@ -1,0 +1,128 @@
+{% extends 'base_with_layout.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong>게시글 상세 보기</strong>
+            </div>
+            <div class="card-body card-block">                
+                <form class="form-horizontal">
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="title" class=" form-control-label">제목</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="title" readonly class="form-control" value="{{ board['title'] }}">
+                        </div>
+                    </div>                    
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="writer" class=" form-control-label">작성자</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="writer" readonly class="form-control" value="{{ board['writer'] }}">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="readcount" class=" form-control-label">조회수</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="readcount" readonly class="form-control" value="{{ board['readcount'] }}">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="writedate" class=" form-control-label">작성일자</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="writedate" readonly class="form-control" value="{{ board['writedate'] }}">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="modifydate" class=" form-control-label">수정일자</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="modifydate" readonly class="form-control" value="{{ board['modifydate'] }}">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="attachment" class=" form-control-label">첨부파일</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            {% for attachment in attachments %}                            
+                            <a href="{{ url_for('board.download', savedfilename=attachment['savedfilename']) }}">
+                                {{ attachment['userfilename'] }}
+                            </a>
+                            &nbsp;&nbsp;
+                            <a id="download-link" href="javascript:"
+                               data-savedfilename="{{attachment['savedfilename']}}">
+                                {{ attachment['userfilename'] }}
+                            </a>
+                            [ <span id="download-count">{{ attachment['downloadcnt'] }}</span> ]
+                            <br>
+                            {% endfor %}                            
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="content" class=" form-control-label">내용</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <textarea id="content" rows="9" style="resize: none;"
+                                      readonly class="form-control">{{ board['content'] }}</textarea>
+                        </div>
+                    </div>                    
+                </form>
+            </div>
+            <div class="card-footer text-right">
+                <button id="btn-list" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-list"></i> 목록
+                </button>
+                {% if session.get('loginuser') and session.get('loginuser')['memberid'] == board['writer'] %}
+                <button id="btn-edit" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-edit"></i> 수정
+                </button>
+                <button id="btn-delete" type="button" class="btn btn-danger btn-sm">
+                    <i class="fa fa-ban"></i> 삭제
+                </button>
+                {% endif %}
+            </div>        
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_block %}
+<script>
+$(function() {
+    $('#btn-list').on('click', function(event) {
+        location.href = "/board/list/";
+    });
+
+    $('#btn-delete').on('click', function(event) {
+        const yn = confirm("{{ board['boardno'] }}번 글을 삭제할까요?");
+        if (yn) {
+            location.href = "/board/delete/?boardno={{ board['boardno'] }}";
+        }
+    });
+    $('#btn-edit').on('click', function(event) {        
+        location.href = "/board/update/?boardno={{ board['boardno'] }}";        
+    });
+
+    //////////////////////
+
+    $('#download-link').on('click', function(event) {
+        const savedfilename = $(this).data('savedfilename'); // data-savedfilename 속성 읽기
+        location.href = `/board/download/?savedfilename=${savedfilename}`;
+
+        const download_cnt = $('#download-count').text();
+        $('#download-count').text(parseInt(download_cnt) + 1);
+    });
+});
+</script>
+{% endblock %}

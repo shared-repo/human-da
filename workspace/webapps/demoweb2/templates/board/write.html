@@ -1,0 +1,88 @@
+{% extends 'base_with_layout.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong>게시글 쓰기</strong>
+            </div>
+            <div class="card-body card-block">
+                {% if form.errors %}
+                <div class="alert alert-danger" role="alert">
+                    <ul>
+                    {% for field, errors in form.errors.items() %}                            
+                        {% for error in errors %}
+                            <li class="ml-2">{{error}}</li>
+                        {% endfor %}                            
+                    {% endfor %}                        
+                    </ul>
+                </div>
+                {% endif %}
+                <form id="form-write" action="{{ url_for('board.write') }}" 
+                      method="post"
+                      enctype="multipart/form-data"
+                      class="form-horizontal">
+                    {{ form.csrf_token }}
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="title" class=" form-control-label">제목</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="title" name="title" placeholder="제목을 입력하세요" class="form-control">
+                        </div>
+                    </div>                    
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="writer" class=" form-control-label">작성자</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="writer" name="writer" value="{{ session['loginuser']['memberid'] }}"
+                                   readonly class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="attachment" class=" form-control-label">첨부파일</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="file" id="attachment" name="attachment" class="form-control-file">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="content" class=" form-control-label">내용</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <textarea name="content" id="content" rows="9" class="form-control"></textarea>
+                        </div>
+                    </div>                    
+                </form>
+            </div>
+            <div class="card-footer text-right">
+                <button id="btn-submit" type="submit" class="btn btn-primary btn-sm">
+                    <i class="fa fa-dot-circle-o"></i> 글쓰기
+                </button>
+                <button id="btn-reset" type="reset" class="btn btn-danger btn-sm">
+                    <i class="fa fa-ban"></i> 초기화
+                </button>
+            </div>        
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_block %}
+<script>
+$(function() {
+    $('#btn-submit').on('click', function(event) {
+        $('#form-write').submit();
+    });
+    $('#btn-reset').on('click', function(event) {
+        // $('#form-write').reset(); // 오류 : jQuery 객체집합에는 reset 함수 없음
+        $('#form-write')[0].reset(); // jQuery 객체집합에서 DOM객체를 뽑아서 사용
+    });
+});
+</script>
+{% endblock %}
+

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block base_content %}
+        <div class="page-content--bge5">
+            <div class="container">
+                <div class="login-wrap">
+                    <div class="login-content">                        
+                        <div class="login-logo">
+                            <a href="/">
+                                <img src="/static/images/icon/logo.png" alt="CoolAdmin">
+                            </a>
+                        </div>
+                        {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <ul>
+                            {% for field, errors in form.errors.items() %}                            
+                                {% for error in errors %}
+                                    <li>{{error}}</li>
+                                {% endfor %}                            
+                            {% endfor %}                        
+                            </ul>
+                        </div>
+                        {% endif %}
+                        <div class="login-form">
+                            <!-- <form action="/auth/register" method="post"> -->
+                            <form action="{{ url_for('auth.register') }}" method="post">
+                                {{ form.csrf_token }}
+                                <div class="form-group">
+                                    <label>아이디</label>
+                                    <input class="au-input au-input--full" type="text" name="memberid" placeholder="아이디를 입력하세요">
+                                </div>
+                                <div class="form-group">
+                                    <label>패스워드</label>
+                                    <input class="au-input au-input--full" type="password" name="passwd" placeholder="패스워드를 입력하세요">
+                                </div>
+                                <div class="form-group">
+                                    <label>이메일</label>
+                                    <input class="au-input au-input--full" type="email" name="email" placeholder="이메일을 입력하세요">
+                                </div>
+                                <div class="form-group">
+                                    <label>성별</label>
+                                    <div class="form-check-inline form-check">
+                                        <label for="female" class="form-check-label ">
+                                            <input type="radio" id="female" name="gender" value="female" class="form-check-input">여
+                                        </label>
+                                        &nbsp;&nbsp;
+                                        <label for=male" class="form-check-label ">
+                                            <input type="radio" id="male" name="gender" value="male" class="form-check-input">남
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>관심주제</label>
+                                    <div class="form-check-inline form-check">
+                                        <label for="it" class="form-check-label ">
+                                            <input type="checkbox" id="it" name="interest" value="it" class="form-check-input">IT
+                                        </label>
+                                        &nbsp;&nbsp;
+                                        <label for="stock" class="form-check-label ">
+                                            <input type="checkbox" id="stock" name="interest" value="stock" class="form-check-input">Stock
+                                        </label>
+                                        &nbsp;&nbsp;
+                                        <label for="coin" class="form-check-label ">
+                                            <input type="checkbox" id="coin" name="interest" value="coin" class="form-check-input">Coin
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="login-checkbox">
+                                    <label>
+                                        <input type="checkbox" name="aggree">Agree the terms and policy
+                                    </label>
+                                </div>
+                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">회원가입</button>
+                                <div class="social-login-content">
+                                    <div class="social-button">
+                                        <button class="au-btn au-btn--block au-btn--blue m-b-20">register with facebook</button>
+                                        <button class="au-btn au-btn--block au-btn--blue2">register with twitter</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="register-link">
+                                <p>
+                                    Already have account?
+                                    <a href="#">Sign In</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

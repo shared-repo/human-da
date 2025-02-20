@@ -1,0 +1,132 @@
+{% extends 'base_with_layout.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong>게시글 상세 보기</strong>
+            </div>
+            <div class="card-body card-block">                
+                <form id="update-form" 
+                      action="{{ url_for('board.update') }}" method="post" class="form-horizontal">
+                    <input type="hidden" name="boardno" value="{{ board['boardno'] }}">
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="title" class=" form-control-label">제목</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="title" name="title" class="form-control" value="{{ board['title'] }}">
+                        </div>
+                    </div>                    
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="writer" class=" form-control-label">작성자</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="writer" readonly class="form-control" value="{{ board['writer'] }}">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="readcount" class=" form-control-label">조회수</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="readcount" readonly class="form-control" value="{{ board['readcount'] }}">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="writedate" class=" form-control-label">작성일자</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="writedate" readonly class="form-control" value="{{ board['writedate'] }}">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="modifydate" class=" form-control-label">수정일자</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="modifydate" readonly class="form-control" value="{{ board['modifydate'] }}">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="attachment" class=" form-control-label">첨부파일</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            {% for attachment in attachments %}                                                                                    
+                            {{ attachment['userfilename'] }}
+                            [ <a href="{{ url_for('board.delete_attachment', attachno=attachment['attachno'], boardno=board['boardno']) }}">삭제</a> ]
+                            [ <a id='delete-attach-link' href="javascript:" 
+                                 data-attachno="{{attachment['attachno']}}"
+                                 data-boardno="{{board['boardno']}}">삭제</a> ]
+                            <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-2">
+                            <label for="content" class=" form-control-label">내용</label>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <textarea id="content" name="content" rows="9" style="resize: none;"
+                                      class="form-control">{{ board['content'] }}</textarea>
+                        </div>
+                    </div>                    
+                </form>
+            </div>
+            <div class="card-footer text-right">                
+                <button id="btn-update" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-edit"></i> 수정
+                </button>
+                <button id="btn-delete" type="button" class="btn btn-danger btn-sm">
+                    <i class="fa fa-ban"></i> 삭제
+                </button>
+                <button id="btn-list" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-list"></i> 목록
+                </button>
+                <button id="btn-cancel" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-backward"></i> 취소
+                </button>
+            </div>        
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_block %}
+<script>
+$(function() {
+    $('#btn-list').on('click', function(event) {
+        location.href = "/board/list/";
+    });
+
+    $('#btn-cancel').on('click', function(event) {
+        history.back();
+        // location.href = "/board/detail/?boardno={{ board['boardno'] }}";
+    });
+
+    $('#btn-delete').on('click', function(event) {
+        const yn = confirm("{{ board['boardno'] }}번 글을 삭제할까요?");
+        if (yn) {
+            location.href = "/board/delete/?boardno={{ board['boardno'] }}";
+        }
+    });
+
+    $('#btn-update').on('click', function(event) {
+        $('#update-form').submit();
+    });
+
+    $('#delete-attach-link').on('click', function(event) {
+        const yn = confirm("첨부파일을 삭제할까요?");
+        if (yn) {
+            const boardno = $(this).data('boardno');
+            const attachno = $(this).data('attachno');
+            location.href = `/board/delete-attachment/?boardno=${boardno}&attachno=${attachno}`;
+        }
+    });
+});
+</script>
+{% endblock %}
