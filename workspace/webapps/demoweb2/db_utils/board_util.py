@@ -2,7 +2,7 @@ import pymysql
 
 
 def insert_board(title, writer, content):
-    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+    conn = pymysql.connect(host="db", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")
     
     cursor = conn.cursor()
@@ -23,7 +23,7 @@ def insert_board(title, writer, content):
     return last_insert_id_row[0] # insert한 글의 pk값 (자동 증가 값)
 
 def select_board_list(result_type='list'):
-    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+    conn = pymysql.connect(host="db", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")
     
     cursor = conn.cursor()
@@ -45,7 +45,7 @@ def select_board_list(result_type='list'):
 
 
 def select_board_list_with_paging(start, page_size, result_type='list'):
-    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+    conn = pymysql.connect(host="db", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")
     
     cursor = conn.cursor()
@@ -67,7 +67,7 @@ def select_board_list_with_paging(start, page_size, result_type='list'):
         return result_as_dict(rows, ["boardno", "title", "writer", "readcount", "writedate", "modifydate", "deleted"])
 
 def select_board_count():
-    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+    conn = pymysql.connect(host="db", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")
     
     cursor = conn.cursor()
@@ -84,7 +84,7 @@ def select_board_count():
 
 
 def select_board_by_boardno(boardno, result_type='list'):
-    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+    conn = pymysql.connect(host="db", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")
     
     cursor = conn.cursor()
@@ -109,7 +109,7 @@ def select_board_by_boardno(boardno, result_type='list'):
         return results[0]
     
 def increase_read_count(boardno):
-    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+    conn = pymysql.connect(host="db", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")
     
     cursor = conn.cursor()
@@ -132,7 +132,7 @@ def result_as_dict(rows, columns):
     return dict_list
 
 def delete_board(boardno):
-    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+    conn = pymysql.connect(host="db", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")
     
     cursor = conn.cursor()
@@ -147,7 +147,7 @@ def delete_board(boardno):
     conn.close()
 
 def update_board(boardno, title, content):
-    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+    conn = pymysql.connect(host="db", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")
     
     cursor = conn.cursor()
@@ -162,7 +162,7 @@ def update_board(boardno, title, content):
 
 
 def insert_attachment(boardno, userfilename, savedfilename):
-    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+    conn = pymysql.connect(host="db", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")
     
     cursor = conn.cursor()
@@ -177,7 +177,7 @@ def insert_attachment(boardno, userfilename, savedfilename):
     conn.close()
 
 def select_attachments_by_boardno(boardno, result_type='dict'):
-    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+    conn = pymysql.connect(host="db", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")
     
     cursor = conn.cursor()
@@ -201,7 +201,7 @@ def select_attachments_by_boardno(boardno, result_type='dict'):
     
 
 def increase_download_count(savedfilename):
-    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+    conn = pymysql.connect(host="db", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")
     
     cursor = conn.cursor()
@@ -217,7 +217,7 @@ def increase_download_count(savedfilename):
     conn.close()
 
 def delete_attachment(attachno):
-    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+    conn = pymysql.connect(host="db", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")
     
     cursor = conn.cursor()

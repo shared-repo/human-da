@@ -2,7 +2,7 @@ import pymysql
 
 
 def insert_member(member_id, passwd, email):
-    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+    conn = pymysql.connect(host="db", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")
     
     cursor = conn.cursor()
@@ -18,7 +18,7 @@ def insert_member(member_id, passwd, email):
 
 
 def select_member_by_id(member_id):
-    conn = pymysql.connect(host="127.0.0.1", port=3306, db="demoweb",
+    conn = pymysql.connect(host="db", port=3306, db="demoweb",
                            user="humanda", passwd="humanda")
     
     cursor = conn.cursor()
