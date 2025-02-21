@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     healthcheck:
       # test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pmysql"]
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       retries: 5
       start_period: 30s

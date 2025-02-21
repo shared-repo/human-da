@@ -10,14 +10,14 @@ RUN apt update \
 # && pip install torch torchvision torchaudio \
 && pip install chromadb
 
+# ENV OPENAI_API_KEY=replace with your api key
+EXPOSE 5000
+
 WORKDIR /work
 
 RUN git clone https://github.com/shared-repo/human-da.git \
 && cp -r ./human-da/workspace/webapps/demoweb2 .
 
-
-
-EXPOSE 5000
 
 CMD ["flask", "--app", "demoweb2", "--debug", "run", "--host=0.0.0.0"]
 
