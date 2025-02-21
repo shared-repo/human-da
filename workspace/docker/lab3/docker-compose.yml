@@ -7,10 +7,11 @@ services:
       context: db
       dockerfile: Dockerfile
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pmysql"]
+      # test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pmysql"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p"]
       interval: 10s
       retries: 5
-      start_period: 10s
+      start_period: 30s
     ports:
       - "13306:3306"
     networks:
@@ -25,6 +26,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    ports:
+      - "5000:5000"
+
 
 networks:
   human_net:
