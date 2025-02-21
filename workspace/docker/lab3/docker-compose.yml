@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+
+  db:
+    build:
+      context: db
+      dockerfile: Dockerfile
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pmysql"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+    ports:
+      - "13306:3306"
+    networks:
+      - human_net
+
+  web:
+    build:
+      context: web
+      dockerfile: Dockerfile
+    networks:
+      - human_net
+    depends_on:
+      db:
+        condition: service_healthy
+
+networks:
+  human_net:
+    external: true

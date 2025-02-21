@@ -39,7 +39,7 @@ def register():
         print(form.gender.data, request.form.get('gender'))
         print(form.interest.data, request.form.getlist('interest'))
         print(','.join(form.interest.data))
-        return 'test'
+        # return 'test'
     
         passwd_hash = generate_password_hash(form.passwd.data)
         auth_util.insert_member(form.memberid.data, passwd_hash, form.email.data)

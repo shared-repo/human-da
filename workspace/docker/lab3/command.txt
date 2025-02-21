@@ -1,0 +1,22 @@
+- create network
+docker network create human_net
+
+- db image
+docker build --tag db_server:1.0 .
+
+- db container
+docker container run --name db 
+		 -p 13306:3306 
+		 -d 
+		 --net human_net
+		 db_server:1.0
+
+-- web image
+docker build --tag demoweb2_on_flask:1.0 .
+
+-- web container
+docker container run --name demoweb2 \
+		  -p 5000:5000 -d \
+		  -e OPENAI_API_KEY=... \
+		  --net human_net
+		  demoweb2_on_flask:1.0
