@@ -1,0 +1,57 @@
+{% extends 'base_with_layout.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive table--no-card m-b-30">
+            <table class="table table-borderless table-striped table-earning">
+                <thead>
+                    <tr>
+                        <th>code</th>
+                        <th>date</th>
+                        <th>open</th>
+                        <th>high</th>
+                        <th>low</th>
+                        <th>close</th>
+                        <th>volume</th>
+                    </tr>
+                </thead>
+                <tbody id="quotes">
+                    <!-- Data will be populated here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_block %}
+<script>
+    $(function() {
+        $.ajax({
+            url: '/data/get-list',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                var quotes = data;
+                var tbody = $('#quotes');
+                tbody.empty();
+                $.each(quotes, function(index, quote) {
+                    const trade_date = new Date(quote[1]);
+                    trade_date_str = `${trade_date.getFullYear()}-${(trade_date.getMonth() + 1).toString().padStart(2, '0')}-${trade_date.getDate().toString().padStart(2, '0')}`;
+                    var row = '<tr>' +
+                        '<td>' + quote[0] + '</td>' +
+                        '<td>' + trade_date_str + '</td>' +
+                        '<td>' + Number(quote[2]).toLocaleString() + '</td>' +
+                        '<td>' + Number(quote[3]).toLocaleString() + '</td>' +
+                        '<td>' + Number(quote[4]).toLocaleString() + '</td>' +
+                        '<td>' + Number(quote[5]).toLocaleString() + '</td>' +
+                        '<td>' + Number(quote[6]).toLocaleString() + '</td>' +
+                        '</tr>';
+                    tbody.append(row);
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}
