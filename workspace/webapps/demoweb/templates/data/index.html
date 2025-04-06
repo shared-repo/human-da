@@ -3,6 +3,74 @@
 {% block content %}
 <div class="row">
     <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">Search Options</div>
+            <div class="card-body">
+                <form action="" method="post" novalidate="novalidate">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label for="sort-column" class="control-label mb-1">Sort Column</label>
+                                <select id="sort-column" name="sort_column" class="form-control">
+                                    <option value="date">Date</option>
+                                    <option value="open">Open</option>
+                                    <option value="high">High</option>
+                                    <option value="low">Low</option>
+                                    <option value="close">Close</option>
+                                    <option value="volume">Volume</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label for="sort-direction" class="control-label mb-1">Sort Direction</label>
+                                <select id="sort-direction" name="sort_direction" class="form-control">
+                                    <option value="asc">Ascending</option>
+                                    <option value="desc">Descending</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label for="sort-apply-btn" class="control-label mb-1"></label>
+                                <button id="sort-apply-btn" type="submit" class="btn btn-lg btn-info btn-block">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label for="search-column" class="control-label mb-1">Search Column</label>
+                                <select id="search-column" name="search_column" class="form-control">
+                                    <option value="date">Date</option>
+                                    <option value="open">Open</option>
+                                    <option value="high">High</option>
+                                    <option value="low">Low</option>
+                                    <option value="close">Close</option>
+                                    <option value="volume">Volume</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label for="sort-direction" class="control-label mb-1">Search Keyword</label>
+                                <input id="search-keyword" name="search_keyword" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label for="search-apply-btn" class="control-label mb-1"></label>
+                                <button id="search-apply-btn" type="submit" class="btn btn-lg btn-info btn-block">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
         <div class="table-responsive table--no-card m-b-30">
             <table class="table table-borderless table-striped table-earning">
                 <thead>
@@ -23,6 +91,18 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="au-card m-b-30">
+            <div class="au-card-inner">
+                <h3 class="title-2 m-b-40">Daily Price</h3>
+                <canvas id="price-chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block js_block %}
@@ -52,6 +132,77 @@
                 });
             }
         });
+    
+        function draw_price_plot() {
+            $.ajax({
+                url: '/data/get-price-data',
+                type: 'GET',
+                data: { 'code': '005930', 'start_date': '2023-01-01', 'end_date': '2023-12-31' },
+                dataType: 'json',
+                success: function(data) {
+                    var ctx = $('#price-chart')[0].getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: data.date,
+                            datasets: [{
+                                label: "Close",
+                                data: data.close,
+                                backgroundColor: 'transparent',
+                                borderColor: 'rgba(220,53,69,0.75)',
+                                borderWidth: 1,
+                                pointStyle: 'circle',
+                                pointRadius: 2,
+                                pointBorderColor: 'transparent',
+                                pointBackgroundColor: 'rgba(220,53,69,0.75)'
+                            },{
+                                label: "Open",
+                                data: data.open,
+                                backgroundColor: 'transparent',
+                                borderColor: 'rgba(69,53,220,0.75)',
+                                borderWidth: 1,
+                                pointStyle: 'circle',
+                                pointRadius: 2,
+                                pointBorderColor: 'transparent',
+                                pointBackgroundColor: 'rgba(69,53,220,0.75)'
+                            },{
+                                label: "High",
+                                data: data.high,
+                                backgroundColor: 'transparent',
+                                borderColor: 'rgba(69,220,53,0.75)',
+                                borderWidth: 1,
+                                pointStyle: 'circle',
+                                pointRadius: 2,
+                                pointBorderColor: 'transparent',
+                                pointBackgroundColor: 'rgba(69,220,53,0.75)'
+                            },{
+                                label: "Low",
+                                data: data.open,
+                                backgroundColor: 'transparent',
+                                borderColor: 'rgba(0,0,0,0.75)',
+                                borderWidth: 1,
+                                pointStyle: 'circle',
+                                pointRadius: 2,
+                                pointBorderColor: 'transparent',
+                                pointBackgroundColor: 'rgba(0,0,0,0.75)'
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        draw_price_plot();
+    
     });
 </script>
 {% endblock %}
